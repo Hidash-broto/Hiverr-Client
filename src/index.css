@@ -1,0 +1,57 @@
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Roboto:ital,wght@1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Roboto:ital,wght@1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Oswald:wght@500&family=Roboto:ital,wght@1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;600&family=Oswald:wght@500&family=Roboto:ital,wght@1,700&display=swap');
+
+
+body {
+  margin: 0%;
+  padding: 0%;
+}
+
+.heading {
+  font-family: 'Josefin Sans', cursive;
+}
+.MuiInput-root {
+  border-bottom: 2px solid #0275d8 !important;
+}
+.errorMessage {
+  font-size: 10px !important;
+  margin:0 !important
+}
+.adminInput {
+  position: relative;
+  height: 90px;
+}
+.selectorText {
+  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
+}
+.clientSignupTitle {
+font-family: 'Montserrat', sans-serif;
+font-family: 'Oswald', sans-serif;
+}
+.clientSignupGoogleButton {
+  margin-top: 150px !important;
+  width: 100px !important;
+}
+.adminHeading {
+  font-family: 'Righteous', cursive;
+  margin-left: 38px;
+  margin-top: 7px;
+  margin-bottom: 15px;
+}
+.css-1oqqzyl-MuiContainer-root {
+  max-width: 5000px !important; 
+}
+#root :is(.mt-4) {
+  margin-top: 3.5rem !important;
+}
+.clientSignupTitle2 {
+  font-family: 'Righteous', cursive;
+  margin-left: 170px !important;
+}
