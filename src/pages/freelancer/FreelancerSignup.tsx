@@ -57,7 +57,7 @@ function FreelancerSignup() {
         onSubmit={async (values) => {
           console.log(values)
           if(values.password !== values.confirmPassword) confirmPass = true
-          const response = await axios.post('http://localhost:5000/api/freelancer/signup',values);
+          const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/signup`,values);
           if(response.data.status){
             toast.success(response.data.message)
             navigate('/login')

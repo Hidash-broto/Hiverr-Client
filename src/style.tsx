@@ -80,5 +80,15 @@ export const useStyle = makeStyles((theme) => ({
         borderColor: 'black',
         borderRadius:'10px',
         marginTop: '130px'
+    },
+    loading:{
+        marginTop:'300px',
+        marginLeft:'450px',
+        position:'absolute'
+    },
+    listLoading: {
+        marginTop:'100px',
+        marginLeft:'450px',
+        position:'absolute'
     }
 }))

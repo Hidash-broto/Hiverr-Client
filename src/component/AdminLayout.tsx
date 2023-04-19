@@ -47,6 +47,11 @@ function AdminLayout(prop: any) {
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
+      if(newValue === 1){
+        localStorage.setItem('listType', 'freelancer')
+      } else if (newValue === 2){
+        localStorage.setItem('listType', 'client')
+      }
     };
 
   return (
@@ -77,10 +82,10 @@ function AdminLayout(prop: any) {
         Item One
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {prop.children[0]}
+        {prop.children}
       </TabPanel>
       <TabPanel value={value} index={2}>
-      {prop.children[1]}
+      {prop.children}
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Four

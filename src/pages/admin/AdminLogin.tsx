@@ -1,4 +1,3 @@
-
 import { Typography, Stack, Container, CssBaseline, TextField, Button } from '@mui/material'
 import { useStyle } from '../../style'
 import '../../index.css'
@@ -36,7 +35,7 @@ function AdminLogin() {
                 password: yup.string().required('*Required')
               })}
               onSubmit={async (values) => {
-                const response = await axios.post('http://localhost:5000/api/admin/login', values)
+                const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/admin/login`, values)
                 console.log(response);               
                 if(response.data.status){
                   const isAdmin = 'true';

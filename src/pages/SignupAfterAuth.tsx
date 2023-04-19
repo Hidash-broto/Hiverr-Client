@@ -60,7 +60,7 @@ function SignupAfterAuth() {
               values.firstName = firstName
               values.lastName = lastName
               values.email = email
-              const response = await axios.post('http://localhost:5000/api/client/signup', values);
+              const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/client/signup`, values);
               if (response.data.status) {
                 toast.success(response.data.message)
                 navigate('/login')

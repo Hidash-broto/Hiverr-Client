@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+
 import { Typography, Stack, Container, CssBaseline, TextField, Button, Link, MenuItem } from '@mui/material'
 import { useStyle } from '../style'
 import '../index.css'
@@ -49,7 +49,7 @@ function Login() {
                 userType: yup.string().required("*Required")
               })}
               onSubmit={async (values) => {
-                const response = await axios.post('http://localhost:5000/api/login', values)
+                const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, values)
                 if (response.data.status) {
                   localStorage.setItem('userType', response.data.userType)
                   localStorage.setItem('token', response.data.token)
