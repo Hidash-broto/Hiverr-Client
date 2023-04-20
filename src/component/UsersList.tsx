@@ -16,6 +16,7 @@ import toast from 'react-hot-toast'
 import {FunctionComponent} from 'react'
 import ReactLoading from "react-loading";
 // import { useDispatch } from 'react-redux'
+import PaginationPage from './PaginationPage';
 
 
 function UsersList() {
@@ -23,6 +24,12 @@ function UsersList() {
     const userType = localStorage.getItem('listType')
     const [user, setUser] = useState([])
     const [loading, setLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(4)
+    const indexOfLast = currentPage * postsPerPage
+    const indexOfFirst = indexOfLast - postsPerPage
+    console.log(indexOfFirst, indexOfLast, currentPage, postsPerPage)
+    let currentLists:any = []
     useEffect(() => {
         async function fetchData() {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/${userType}/list`)
@@ -34,7 +41,9 @@ function UsersList() {
             }
         }
         fetchData()
-    })
+    },[])
+    currentLists = user.slice(indexOfFirst, indexOfLast)
+    console.log(currentLists)
 
     const handleChange = async (id: string) => {        
         const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/${userType}/block`, {id:id})
@@ -45,11 +54,16 @@ function UsersList() {
         }
     }
     const classes = useStyle()
-    console.log(user)
+
+    const paginate = (pageNumber:number) =>{
+        setCurrentPage(pageNumber)
+        console.log(pageNumber)
+    }
     return (
+        <>
         <Container className={classes.contentContainer}>
             <Typography sx={{ marginTop: '20px', position: 'absolute' }} variant='h5'>Freelancers</Typography>
-            <TextField sx={{ marginTop: '70px', backgroundColor: '#ffffff' }} onChange={()=> console.log(process.env.REACT_APP_BASE_URL)} fullWidth label="Search Freelancers" id="fullWidth" />
+            <TextField sx={{ marginTop: '70px', backgroundColor: '#ffffff' }}  fullWidth label="Search Freelancers" id="fullWidth" />
             <TableContainer sx={{ marginTop: '35px' }} component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -69,7 +83,7 @@ function UsersList() {
               width={50}
               className={classes.listLoading}
               />:
-                    user.map((user: any) => (
+                    currentLists.map((user: any) => (
                     <TableBody>
                             <TableRow
                                 key={user.firstName + user.lastName}
@@ -91,7 +105,9 @@ function UsersList() {
                  ))}
                 </Table>
             </TableContainer>
+             <PaginationPage postsPerPage={postsPerPage} totalPosts={user.length} paginate={paginate} />
         </Container>
+        </>
     );
 }
 
