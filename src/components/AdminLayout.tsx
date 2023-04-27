@@ -77,6 +77,12 @@ function AdminLayout(prop: any) {
         <Tab sx={{marginRight:'30px'}} label="Payments" {...a11yProps(3)} />
       </Tabs>
       </Box>
+      <Button onClick={() => {
+      localStorage.clear()
+      navigate('/admin/login')
+    }} sx={{marginLeft:'75px'}} variant="outlined" color="error">
+         Logout
+      </Button>
       </Container>
       <TabPanel value={value} index={0}>
         Item One
@@ -91,13 +97,6 @@ function AdminLayout(prop: any) {
         Item Four
       </TabPanel>
     </Stack>
-    <Button onClick={() => {
-      localStorage.clear()
-      navigate('/admin/login')
-    }} sx={{marginLeft:'92px'}} variant="outlined" color="error">
-         Logout
-      </Button>
-
     </>
   )
 }

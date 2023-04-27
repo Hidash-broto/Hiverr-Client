@@ -55,3 +55,36 @@ font-family: 'Oswald', sans-serif;
   font-family: 'Righteous', cursive;
   margin-left: 170px !important;
 }
+.css-19kzrtu {
+  padding: 0px !important;
+}
+.stepper {
+  max-width: 2000px !important;
+}
+.gigTitle {
+  margin-top: 90px;
+  margin-left: 200px;
+  width: 500px !important;
+}
+.gigCategory {
+  margin-left: 200px;
+  margin-top: 65px;
+  width: 240px;
+}
+.gigSubCategory {
+  margin-left: 20px;
+  margin-top: 65px;
+  width: 240px;
+}
+.gigKeyword {
+  margin-top: 15px;
+  width: 500px !important;
+  margin-left: 20px;
+}
+.css-1s0tand-MuiContainer-root {
+  margin-left: 0;
+}
+.positiveKeyAdd {
+  margin-top: 154px !important;
+  margin-left: 15px !important;
+}

@@ -7,6 +7,8 @@ import * as yup from 'yup'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { userData } from '../redux/User'
+import { useDispatch } from 'react-redux'
 
 interface MyFormValues {
   email: string,
@@ -20,6 +22,9 @@ const userTypes = [
 ]
 
 function Login() {
+
+  const dispatch = useDispatch()
+
   const googleAuth = () => {
     window.open(
       'http://localhost:5000/api/client/google'
@@ -53,15 +58,15 @@ function Login() {
                 if (response.data.status) {
                   localStorage.setItem('userType', response.data.userType)
                   localStorage.setItem('token', response.data.token)
+                  dispatch(userData(values))
                   toast.success(response.data.message)
-                  navigate(`${response.data.userType}/home`)
+                  navigate(`/${response.data.userType}/home`,{replace:true})
                 } else {
                   toast.error(response.data.message)
                 }
               }}>{({ handleSubmit, handleChange, errors, touched, values }) => (
                 <form onSubmit={handleSubmit}>
                   <Stack direction='column'>
-
                     <TextField InputLabelProps={{ className: classes.floatingLabelFocusStyle }} onChange={handleChange} value={values.email} name='email' color='primary' className='adminInput' style={{ marginTop: '10px' }} id="standard-basic"
                       label={touched.email && errors.email ? errors.email : 'Email'} variant="standard" />
                     <TextField InputLabelProps={{ className: classes.floatingLabelFocusStyle }} type='password' onChange={handleChange} value={values.password} name='password' className='adminInput' id="standard-basic"

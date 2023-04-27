@@ -11,7 +11,6 @@ function ProtectedRoute(props: childrenProp) {
         return <>
         {props.children}
         </>
-
     }else{
         return <Navigate to='/admin/login'/>
     }

@@ -7,6 +7,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import {useNavigate} from 'react-router-dom'
 
+
 interface MyFormValues {
   email: string,
   password: string
@@ -19,6 +20,7 @@ function AdminLogin() {
     password: ''
   }
   const classes = useStyle()
+
 
   return (
     <>

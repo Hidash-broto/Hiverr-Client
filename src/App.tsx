@@ -4,20 +4,24 @@ import AdminLogin from './pages/admin/AdminLogin'
 import Login from './pages/Login'
 import { ErrorBoundary } from "react-error-boundary";
 import { Toaster } from 'react-hot-toast';
-import PublicRouteAdmin from './component/PublicRouteAdmin'
-import ProtectedRoute from './component/ProtectedRoute'
+import PublicRouteAdmin from './components/PublicRouteAdmin'
+import ProtectedRoute from './components/ProtectedRoute'
 import ClientHome from './pages/client/CientHome'
 import SelectingPage from './pages/client/SelectingPage';
 import Signup from './pages/client/Signup';
 import FreelanserSignup from './pages/freelancer/FreelancerSignup'
-import AdminLayout from './component/AdminLayout';
+import AdminLayout from './components/AdminLayout';
 import SignupAfterAuth from './pages/SignupAfterAuth'
 import FreelancerHome from './pages/freelancer/FreelancerHome';
-import Loading from './component/Loading';
-import FallbackErrorBoundary from './component/FallbackErrorBoundary';
-const UsersList = React.lazy(() =>
-  import("./component/UsersList")
-);
+import Loading from './components/Loading';
+import FallbackErrorBoundary from './components/FallbackErrorBoundary';
+import FreelancerGigCreation from './pages/freelancer/FreelancerGigCreation';
+import PublicRouteUser from './components/PublicRouteUser';
+import ProtectedRouteUser from './components/ProtectedRouteUser';
+import Overview from './components/gigCreationComponents/Overview';
+import Pricing from './components/gigCreationComponents/Pricing';
+
+const UsersList = React.lazy(() => import("./components/UsersList"));
 
 function App() {
   return (
@@ -28,7 +32,9 @@ function App() {
 
           <Route path='/' element={
             <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
-            <ClientHome />
+              <ProtectedRouteUser>
+              <ClientHome />
+              </ProtectedRouteUser>
             </ErrorBoundary>
           } />
 
@@ -54,7 +60,10 @@ function App() {
 
           <Route path='/login' element={
            <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
-             <Login />
+            <PublicRouteUser>
+            <Login />  
+          </PublicRouteUser>
+             
            </ErrorBoundary>
           } />
           <Route path='/freelancer/signup' element={<FreelanserSignup />} />
@@ -78,7 +87,18 @@ function App() {
 
           <Route path='/freelancer/home' element={
             <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+              <ProtectedRouteUser>
               <FreelancerHome />
+              </ProtectedRouteUser>
+            </ErrorBoundary>
+          } />
+
+          <Route path='/freelancer/gigCreation' element= {
+            <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+              <FreelancerGigCreation>
+                <Overview />
+                <Pricing />
+              </FreelancerGigCreation>
             </ErrorBoundary>
           } />
 

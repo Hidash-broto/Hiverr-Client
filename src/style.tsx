@@ -63,12 +63,13 @@ export const useStyle = makeStyles((theme) => ({
         width: '307px',
         backgroundColor: '#ffffff',
         marginLeft:'0',
-        marginRight:'0'
+        marginRight:'0',
+        height:'100px'
     },
     contentContainer: {
-        width:'1050px',
-        height:'550px',
-        marginTop:'40px',
+        width:'1067px',
+        height:'600px',
+        marginTop:'60px',
         backgroundColor:'#ebebeb',
         marginLeft: '-25px'
     },
@@ -90,5 +91,13 @@ export const useStyle = makeStyles((theme) => ({
         marginTop:'100px',
         marginLeft:'450px',
         position:'absolute'
+    },
+    footer: {
+        width: '1314px',
+        height: '346px',
+        backgroundColor: '#002D04',
+        marginLeft: '30px',
+        borderRadius: '20px',
+        position:'relative'
     }
 }))

@@ -4,7 +4,7 @@ import { useStyle } from '../../style'
 import '../../index.css'
 import GoogleIcon from '@mui/icons-material/Google';
 import { Stack } from '@mui/system';
-import CountriesList from '../../component/CountriesList'
+import CountriesList from '../../components/CountriesList'
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik'
 import * as yup from 'yup'

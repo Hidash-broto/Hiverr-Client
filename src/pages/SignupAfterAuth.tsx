@@ -3,7 +3,7 @@ import { Button, Container, MenuItem, TextField, Typography } from '@mui/materia
 import { useStyle } from '../style'
 import '../index.css'
 import { Stack } from '@mui/system';
-import CountriesList from '../component/CountriesList'
+import CountriesList from '../components/CountriesList'
 import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik'
 import * as yup from 'yup'

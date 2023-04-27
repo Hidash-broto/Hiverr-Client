@@ -7,14 +7,12 @@ type childrenProp = {
 }
 
 function PublicRouteAdmin(props: childrenProp) {
-    console.log(localStorage.getItem('adminToken'),'==');
-    
     if(localStorage.getItem("adminToken")){
         return <Navigate to='/admin'/>
     }else{
         return <>
         {props.children}
-        </> 
+        </>
     }
 }
 

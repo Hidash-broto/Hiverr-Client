@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography } from '@mui/material'
 
 function AdminNav() {
   return (
-    <AppBar style={{width:'1055px', marginLeft:'308px', display:'block', position:'absolute'}} position='relative'>
+    <AppBar style={{width:'1066px', marginLeft:'284px', display:'block', position:'absolute'}} position='relative'>
     <Toolbar>
     <Typography variant='h5' color='black'>
         ADMIN
