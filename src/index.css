@@ -88,3 +88,12 @@ font-family: 'Oswald', sans-serif;
   margin-top: 154px !important;
   margin-left: 15px !important;
 }
+.packege {
+  font-family: 'Montserrat', sans-serif;
+}
+.css-18wdohr-MuiStack-root>:not(style)+:not(style) {
+  margin-top: 50px;
+}
+.css-18wdohr-MuiStack-root>:not(style)+:not(style) {
+  margin-left: 100px;
+}
