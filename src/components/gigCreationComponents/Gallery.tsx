@@ -10,26 +10,28 @@ import axios from "axios";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config";
 import { v4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { gigPageChange } from "../../redux/Gig";
 
 function Gallery() {
   const [imageUrls]: any = useState([]);
   const [videoUrls, setVideoUrls]: any = useState("");
+  const [documentUrls, setDocumentUrls] = useState('');
   const [video, setVideo]: any = useState({
     file: [],
-    filePreview: null
+    filePreview: null,
   });
   const [image1, setImage]: any = useState({
     file: [],
     filePreview: null,
   });
-  const [document1, setDocument1]:any = useState({
+  const [document, setDocument]: any = useState({
     file: [],
-    filePreview: null
-  })
-  const [document2, setDocument2]:any = useState({
-    file: [],
-    filePreview: null
-  })
+    filePreview: null,
+  });
+
+  console.log(video, document, image1);
+
 
   const handleInputChange1 = (event: any) => {
     if (event.target.files[0].type === "image/png") {
@@ -74,43 +76,68 @@ function Gallery() {
     }
   };
 
-  const uploadImage = () => {
-    if (image1 == null) return;
-    const sample = [];
-    sample[0] = ref(storage, `gigImages/${image1.file.name + v4()}`);
-    sample[1] = ref(storage, `gigImages/${image2.file.name + v4()}`);
-    sample[2] = ref(storage, `gigImages/${image3.file.name + v4()}`);
-    let img: any;
-
-    sample.map((imageRef, index) => {
-      if (index === 0) {
-        img = image1.file;
-      } else if (index === 1) {
-        img = image2.file;
-      } else if (index === 2) {
-        img = image3.file;
-      }
-
-      uploadBytes(imageRef, img).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          console.log(url);
-          imageUrls.push(url);
-          console.log(imageUrls);
+  const upload = () => {
+      if (image1 == null) return;
+      const sample = [];
+      sample[0] = ref(storage, `gigImages/${image1.file.name + v4()}`);
+      sample[1] = ref(storage, `gigImages/${image2.file.name + v4()}`);
+      sample[2] = ref(storage, `gigImages/${image3.file.name + v4()}`);
+      let img: any;
+  
+      sample.map((imageRef, index) => {
+        if (index === 0) {
+          img = image1.file;
+        } else if (index === 1) {
+          img = image2.file;
+        } else if (index === 2) {
+          img = image3.file;
+        }
+  
+        uploadBytes(imageRef, img).then((snapshot) => {
+          getDownloadURL(snapshot.ref).then((url) => {
+            console.log(url);
+            imageUrls.push(url);
+            console.log(imageUrls);
+          });
         });
       });
-      return 0;
-    });
   };
 
   const uploadVideo = () => {
-    const videoRef = ref(storage, `gigVideo/${video.name + v4()}`);
+    const videoRef = ref(storage, `gigVideo/${video.file.name + v4()}`);
+    console.log(video.name)
     uploadBytes(videoRef, video).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         console.log(url);
-        setVideoUrls(url)
+        setVideoUrls(url);        
       });
     });
   };
+
+  const dispatch = useDispatch()
+
+
+ const  uploadDoc = () => {
+    const documentRef = ref(storage, `gigDocument/${document.name + v4()}`)
+    uploadBytes(documentRef, document).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then(async(url) => {
+        setDocumentUrls(url)
+        // const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`,{imageUrls, videoUrls, documentUrls, number: 5}, {
+        //   headers: {
+        //     Authorization :  `Bearer ${localStorage.getItem('token')}`
+        //   }
+        // })
+    //  if(response.data.status) {
+    //   toast.success('set')
+    //   // dispatch(gigPageChange(6))
+    //  }
+        console.log(url)
+      })
+    })
+  }
+
+
+
 
   return (
     <>
@@ -322,11 +349,14 @@ function Gallery() {
                     height: "200px",
                     backgroundColor: "white",
                   }}
-                >{
-                  video.filePreview != null ? 
-                  <>
-                  <iframe src={video.filePreview} style={{ width: "100%", height: "100%" }} ></iframe>
-                  <Delete
+                >
+                  {video.filePreview != null ? (
+                    <>
+                      <iframe
+                        src={video.filePreview}
+                        style={{ width: "100%", height: "100%" }}
+                      ></iframe>
+                      <Delete
                         onClick={() => {
                           setVideo({
                             file: [],
@@ -340,44 +370,49 @@ function Gallery() {
                           backgroundColor: "#bf0d00",
                         }}
                       />
-                      </>
-                   :
-                  <>
-                  <VideoCallIcon
-                    sx={{
-                      width: "130px",
-                      height: "130px",
-                      marginLeft: "50px",
-                      marginTop: "20px",
-                    }}
-                  />
-                  <input
-                    onChange={(event: any) => {
-                      console.log(event.target.files[0]);
-                      if(event.target.files[0].size/1000000 <= 50) {
-                        if(event.target.files[0].type == 'video/mp4'){
-                          console.log(event.target.files[0].type)
-                          setVideo({
-                            file: event.target.files[0],
-                            filePreview: URL.createObjectURL(event.target.files[0])
-                          });
-                        }else {
-                          toast.error('You can only upload mp4 format vidoes')
-                        }
-                      } else {
-                      toast.error('You can only Upload video below 50 mb')
-                      }
-                    }}
-                    style={{
-                      width: "130px",
-                      height: "130px",
-                      marginLeft: "50px",
-                    }}
-                    type="file"
-                    name="video"
-                  /></>
-                }
-                  
+                    </>
+                  ) : (
+                    <>
+                      <VideoCallIcon
+                        sx={{
+                          width: "130px",
+                          height: "130px",
+                          marginLeft: "50px",
+                          marginTop: "20px",
+                        }}
+                      />
+                      <input
+                        onChange={(event: any) => {
+                          if (event.target.files[0].size / 1000000 <= 50) {
+                            if (event.target.files[0].type === "video/mp4") {
+                              console.log(event.target.files[0]);
+                              setVideo({
+                                file: event.target.files[0],
+                                filePreview: URL.createObjectURL(
+                                  event.target.files[0]
+                                ),
+                              });
+                            } else {
+                              toast.error(
+                                "You can only upload mp4 format vidoes"
+                              );
+                            }
+                          } else {
+                            toast.error(
+                              "You can only Upload video below 50 mb"
+                            );
+                          }
+                        }}
+                        style={{
+                          width: "130px",
+                          height: "130px",
+                          marginLeft: "50px",
+                        }}
+                        type="file"
+                        name="video"
+                      />
+                    </>
+                  )}
                 </Box>
               </Stack>
             </Stack>
@@ -400,13 +435,15 @@ function Gallery() {
                     backgroundColor: "white",
                   }}
                 >
-                  {
-                    document1.filePreview != null ? 
+                  {document.filePreview != null ? (
                     <>
-                    <iframe src={document1.filePreview} style={{width: '100%', height:'100%'}}></iframe>
-                    <Delete
+                      <iframe
+                        src={document.filePreview}
+                        style={{ width: "100%", height: "100%" }}
+                      ></iframe>
+                      <Delete
                         onClick={() => {
-                          setDocument1({
+                          setDocument({
                             file: [],
                             filePreview: null,
                           });
@@ -419,41 +456,41 @@ function Gallery() {
                         }}
                       />
                     </>
-                    :
+                  ) : (
                     <>
-<ArticleIcon
-                    sx={{
-                      width: "130px",
-                      height: "130px",
-                      marginLeft: "50px",
-                      marginTop: "20px",
-                    }}
-                  />
-                  <input
-                    style={{
-                      width: "130px",
-                      height: "130px",
-                      marginLeft: "50px",
-                    }}
-                    type="file"
-                    name="image"
-                    onChange={(e:any) => {
-                      console.log(e.target.files[0].type)
-                      if(e.target.files[0].type === 'application/pdf') {
-                        setDocument1({
-                          file: e.target.files[0],
-                          filePreview: URL.createObjectURL(e.target.files[0])
-                        })
-                      }else {
-                        toast.error('Upload pdf File')
-                      }
-                    }}
-                  />
+                      <ArticleIcon
+                        sx={{
+                          width: "130px",
+                          height: "130px",
+                          marginLeft: "50px",
+                          marginTop: "20px",
+                        }}
+                      />
+                      <input
+                        style={{
+                          width: "130px",
+                          height: "130px",
+                          marginLeft: "50px",
+                        }}
+                        type="file"
+                        name="image"
+                        onChange={(e: any) => {
+                          console.log(e.target.files[0].type);
+                          if (e.target.files[0].type === "application/pdf") {
+                            setDocument({
+                              file: e.target.files[0],
+                              filePreview: URL.createObjectURL(
+                                e.target.files[0]
+                              ),
+                            });
+                          } else {
+                            toast.error("Upload pdf File");
+                          }
+                        }}
+                      />
                     </>
-                  }
-                  
+                  )}
                 </Box>
-              
               </Stack>
             </Stack>
             <Divider sx={{ marginTop: "50px" }} />
@@ -464,7 +501,9 @@ function Gallery() {
             color="success"
             variant="contained"
             size="large"
-            onClick={() => uploadVideo()}
+            onClick={() => {
+              uploadVideo()
+            }}
           >
             Save & Continue
           </Button>
