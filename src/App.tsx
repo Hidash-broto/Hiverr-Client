@@ -20,6 +20,9 @@ import PublicRouteUser from './components/PublicRouteUser';
 import ProtectedRouteUser from './components/ProtectedRouteUser';
 import Overview from './components/gigCreationComponents/Overview';
 import Pricing from './components/gigCreationComponents/Pricing';
+import Discription from './components/gigCreationComponents/Discription';
+import Requirements from './components/gigCreationComponents/Requirements';
+import Gallery from './components/gigCreationComponents/Gallery';
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -98,6 +101,9 @@ function App() {
               <FreelancerGigCreation>
                 <Overview />
                 <Pricing />
+                <Discription />
+                <Requirements />
+                <Gallery />
               </FreelancerGigCreation>
             </ErrorBoundary>
           } />

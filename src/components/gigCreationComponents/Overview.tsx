@@ -1,15 +1,16 @@
-import { Button, Fab, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Button, Fab, MenuItem, TextField, Typography } from '@mui/material'
 import { Container, Stack } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import toast from 'react-hot-toast'
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { gigPageChange } from '../../redux/Gig';
 
 function Overview() {
+  console.log(useSelector((state:any) => state.gig))
   const dispatch = useDispatch()
   const Categories = ['Web Development', 'Graphic Design']
   const [keyWord, setKeyWord] = useState('')

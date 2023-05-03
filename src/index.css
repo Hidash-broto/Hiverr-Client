@@ -97,3 +97,23 @@ font-family: 'Oswald', sans-serif;
 .css-18wdohr-MuiStack-root>:not(style)+:not(style) {
   margin-left: 100px;
 }
+.ql-editor {
+  height: 300px !important;
+}
+.ql-toolbar.ql-snow {
+  background-color: black !important;
+}
+.quill {
+  width: 1202px !important;
+  margin-left: -25px !important;
+}
+.css-15ikzce-MuiSvgIcon-root {
+  margin-top: -58 !important;
+}
+.galleryContainer {
+  max-width: 1351px !important;
+  padding-bottom: 50px;
+  background-color: #cccccc;
+  margin-left: -25px;
+  width: 1351px
+}

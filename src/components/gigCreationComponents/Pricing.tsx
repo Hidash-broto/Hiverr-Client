@@ -2,11 +2,12 @@ import { Button, MenuItem, TextField, Typography } from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import React, { startTransition, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { gigPageChange } from "../../redux/Gig";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useReducer } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 
 
@@ -18,30 +19,21 @@ function Pricing() {
   const reducer = (state: any, action: any) => {
     if(isNaN(state.totalPrice)) {
       state.totalPrice = price
-      console.log(state.totalPrice, 'actual')
     }
     if (action.type == "price") {
-      // price = parseInt(action.value);
-      console.log(action.value,'l')
+      if(price === document.getElementById('totalPrice') && parseInt(imagePrice) > 0) {
+        console.log('aanu');
+      }
       return {
         totalPrice: action.value,
       };
     } else { 
-      console.log(price,'p')
       return { 
-        totalPrice: isNaN(state.totalPrice) ? price : action.value
+        totalPrice: action.value
       };
     }
   };
   const [state, dispatch1] = useReducer(reducer, { totalPrice: 0 });
-  useEffect(() => {
-    console.log('object')
-    if(price == state.totalPrice) {
-      console.log('458')
-      dispatch({type:'imagePrice', value: parseInt(price)+parseInt(imagePrice)})
-      console.log(state.totalPrice)
-    }
-  })
   const deliveryTime: Number[] = [];
   for (let i = 1; i <= 100; i++) {
     deliveryTime.push(i);
@@ -94,18 +86,20 @@ function Pricing() {
               "Number had an 'e' or sign.",
               (value) =>
                 typeof value === "number" && !/[eE+-]/.test(value.toString())
-            ),
-          // totalPrice: yup
-          //   .number()
-          //   .test(
-          //     "noEOrSign",
-          //     "Number had an 'e' or sign.",
-          //     (value) =>
-          //       typeof value === "number" && !/[eE+-]/.test(value.toString())
-          //   ),
+            )
         })}
-        onSubmit={(values) => {
+        onSubmit={async(values) => {
           console.log(values, "=k=");
+          const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`, {values, number:2}, {
+            headers:{
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+          if(response.data.status) {
+            dispatch(gigPageChange(2))
+          }else {
+            toast.error(response.data.message)
+          }
         }}
       >
         {({ handleSubmit, handleChange, errors, touched, values }) => (
@@ -233,9 +227,7 @@ function Pricing() {
                   }}
                   onChange={(e) => {
                     handleChange(e)
-                    console.log(typeof(state.totalPrice))
                     let value = e.target.value
-                    console.log(value,'vlaue')
                     setPrice(e.target.value)
                     dispatch1({type: 'price', value: value})
                   }}
@@ -257,7 +249,6 @@ function Pricing() {
                   onChange={(e) => {
                     handleChange(e)
                     let value = parseInt(e.target.value) * 100
-                    console.log(parseInt(price)+value,'ki')
                     setImagePrice(e.target.value)
                     dispatch1({type: 'imagePrice', value: parseInt(price)+value})
                   }}
@@ -272,12 +263,11 @@ function Pricing() {
                 value={state.totalPrice?state.totalPrice:price}
                 name="totalPrice"
                 sx={{ width: "580px", marginTop: "5.5rem" }}
-                id="outlined-basic"
+                id="totalPrice"
                 label="Total Price"
                 variant="outlined"
                 onChange={(e) => {
-                  console.log('ready')
-                  if(price == e.target.value) {
+                  if(price === e.target.value) {
                     dispatch({type:'imagePrice', value: parseInt(price)+parseInt(imagePrice)})
                   }
                 }}
