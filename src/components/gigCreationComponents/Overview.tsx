@@ -12,7 +12,10 @@ import { gigPageChange } from '../../redux/Gig';
 function Overview() {
   console.log(useSelector((state:any) => state.gig))
   const dispatch = useDispatch()
+  const [subCategories, setSubCategories] = useState(['Select Category'])
   const Categories = ['Web Development', 'Graphic Design']
+  const subCategoriesWebDevelopment = ['Frontend Development', 'Backend Development', 'Full Stack Web Development', 'Web Design'];
+  const subCategoriesGraphicDesign = ['Marketing & advertising graphic design', 'Packaging graphic design', 'Motion graphic design', 'Logo Design', 'Banner Design'];
   const [keyWord, setKeyWord] = useState('')
   const [sample, setSample] : any = useState([])
   const handleKeyword = () => {
@@ -86,7 +89,14 @@ function Overview() {
                       name='category'
                       sx={{width:'240px', height:'50px',marginLeft:'200px', marginTop:'50px'}}
                       className='categoryDropdown'
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        handleChange(e)
+                        if(e.target.value === 'Graphic Design') {
+                          setSubCategories(subCategoriesGraphicDesign)
+                        }else {
+                          setSubCategories(subCategoriesWebDevelopment)
+                        }
+                      }}
                       value={values.category}
                     >
                       {Categories.map((option: string) => (
@@ -106,7 +116,7 @@ function Overview() {
                       onChange={handleChange}
                       value={values.subCategory}
                     >
-                      {Categories.map((option: string) => (
+                      {subCategories.map((option: string) => (
                         <MenuItem key={option} value={option}>
                           {option}
                         </MenuItem>

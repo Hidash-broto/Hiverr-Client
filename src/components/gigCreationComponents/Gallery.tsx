@@ -21,6 +21,7 @@ function Gallery() {
     file: [],
     filePreview: null,
   });
+  console.log(video)
   const [image1, setImage]: any = useState({
     file: [],
     filePreview: null,
@@ -34,7 +35,7 @@ function Gallery() {
 
 
   const handleInputChange1 = (event: any) => {
-    if (event.target.files[0].type === "image/png") {
+    if (event.target.files[0].type === "image/png" || event.target.files[0].type === "image/jpg" || event.target.files[0].type === "image/jpeg") {
       setImage({
         file: event.target.files[0],
         filePreview: URL.createObjectURL(event.target.files[0]),
@@ -50,7 +51,7 @@ function Gallery() {
   });
 
   const handleInputChange2 = (event: any) => {
-    if (event.target.files[0].type === "image/png") {
+    if (event.target.files[0].type === "image/png" || event.target.files[0].type === "image/jpg" || event.target.files[0].type === "image/jpeg") {
       setImage2({
         file: event.target.files[0],
         filePreview: URL.createObjectURL(event.target.files[0]),
@@ -66,7 +67,7 @@ function Gallery() {
   });
 
   const handleInputChange3 = (event: any) => {
-    if (event.target.files[0].type === "image/png") {
+    if (event.target.files[0].type === "image/png" || event.target.files[0].type === "image/jpg" || event.target.files[0].type === "image/jpeg") {
       setImage3({
         file: event.target.files[0],
         filePreview: URL.createObjectURL(event.target.files[0]),
@@ -76,7 +77,7 @@ function Gallery() {
     }
   };
 
-  const upload = () => {
+  const upload = async () => {
       if (image1 == null) return;
       const sample = [];
       sample[0] = ref(storage, `gigImages/${image1.file.name + v4()}`);
@@ -98,9 +99,23 @@ function Gallery() {
             console.log(url);
             imageUrls.push(url);
             console.log(imageUrls);
+            if(index === 2) BackendSave()
           });
         });
       });
+      async function BackendSave () {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`,  { imageUrls, number: 5 }, {
+          headers: {
+            Authorization : `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        if(response.data.status) {
+          dispatch(gigPageChange(5))
+        } else {
+          toast.error(response.data.message)
+        }
+      }
+     
   };
 
   const uploadVideo = () => {
@@ -502,7 +517,11 @@ function Gallery() {
             variant="contained"
             size="large"
             onClick={() => {
-              uploadVideo()
+              if(image1.filePreview !== null && image2.filePreview !== null && image3.filePreview !== null) {
+                upload()
+              }else {
+                toast.error('Upload 3 Images')
+              }
             }}
           >
             Save & Continue

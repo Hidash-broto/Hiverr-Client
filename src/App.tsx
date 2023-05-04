@@ -23,6 +23,8 @@ import Pricing from './components/gigCreationComponents/Pricing';
 import Discription from './components/gigCreationComponents/Discription';
 import Requirements from './components/gigCreationComponents/Requirements';
 import Gallery from './components/gigCreationComponents/Gallery';
+import Publish from './components/gigCreationComponents/Publish'
+import AdminDashboard from './components/AdminDashboard';
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -77,6 +79,9 @@ function App() {
                 <Suspense fallback={<Loading/>}>
                 <UsersList />
                 </Suspense>
+                <Suspense fallback={<Loading/>}>
+                <AdminDashboard />
+                </Suspense>
               </AdminLayout>
             </ProtectedRoute>
           </ErrorBoundary>    
@@ -104,6 +109,7 @@ function App() {
                 <Discription />
                 <Requirements />
                 <Gallery />
+                <Publish />
               </FreelancerGigCreation>
             </ErrorBoundary>
           } />

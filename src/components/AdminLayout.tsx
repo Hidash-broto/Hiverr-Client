@@ -85,13 +85,13 @@ function AdminLayout(prop: any) {
       </Button>
       </Container>
       <TabPanel value={value} index={0}>
-        Item One
+        {prop.children[1]}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {prop.children}
+        {prop.children[0]}
       </TabPanel>
       <TabPanel value={value} index={2}>
-      {prop.children}
+      {prop.children[0]}
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Four

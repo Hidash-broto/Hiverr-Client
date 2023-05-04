@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Dashbord', 'Gigs', 'Profile', 'Earnings'];
 const settings = ['Profile', 'Messages', 'Notification', 'Logout'];
@@ -34,6 +35,12 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const clickEvent = () => {
+    
+  }
+
+  const navigate = useNavigate()
 
   return (
     <AppBar color='transparent' position="static">
@@ -71,7 +78,7 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">hi</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -81,7 +88,11 @@ function ResponsiveAppBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => {
+                  handleCloseNavMenu()
+                  clickEvent()
+                  navigate('/freelancer/gigCreation');
+                }}
                 sx={{ my: 2, color: 'black', display: 'block' }}
               >
                 {page}
@@ -113,7 +124,9 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography onClick={(e) => {
+                    console.log(e.target)
+                  }} key={setting} textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>
