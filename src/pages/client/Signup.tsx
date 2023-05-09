@@ -68,7 +68,6 @@ function Signup() {
           country:yup.string().required("*Required")
         })}
         onSubmit={async (values) => {
-          console.log(process.env.REACT_APP_BASE_URL)
           if(values.password !== values.confirmPassword) confirmPass = true
           const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/client/signup`,values);
           if(response.data.status){

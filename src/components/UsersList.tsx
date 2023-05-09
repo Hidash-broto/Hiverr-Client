@@ -20,12 +20,11 @@ import PaginationPage from './PaginationPage';
 
 
 function UsersList() {
-    // const dispatch = useDispatch()
     const userType = localStorage.getItem('listType')
     const [user, setUser] = useState([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(4)
+    const [postsPerPage] = useState(4)
     const indexOfLast = currentPage * postsPerPage
     const indexOfFirst = indexOfLast - postsPerPage
     console.log(indexOfFirst, indexOfLast, currentPage, postsPerPage)

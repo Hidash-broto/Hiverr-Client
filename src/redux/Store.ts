@@ -5,11 +5,12 @@ import storage from 'redux-persist/lib/storage';
 
 import userReducer from './User';
 import gigReducer from './Gig';
-import Gig from './Gig';
+import gigPageList from './ClientGigPage';
 
 const rootReducer = combineReducers({
     user: userReducer,
-    gig: gigReducer
+    gig: gigReducer,
+    gigList: gigPageList
 })
 
 const persistConfig = {

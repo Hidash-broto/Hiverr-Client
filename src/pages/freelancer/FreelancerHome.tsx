@@ -3,7 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import React from 'react'
 import { Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import UserNav from '../../components/UserNav'
+import FreelancerNav from '../../components/FreelancerNav'
 
 function FreelancerHome() {
 
@@ -11,9 +11,12 @@ function FreelancerHome() {
 
   return (
     <>
-          <UserNav />
+          <FreelancerNav />
     <Container>
-
+<Button onClick={() => {
+  localStorage.clear()
+  navigate('/login')
+}}>Logout</Button>
     </Container>
     </>
   )

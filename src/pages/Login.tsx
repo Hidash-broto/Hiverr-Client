@@ -60,7 +60,11 @@ function Login() {
                   localStorage.setItem('token', response.data.token)
                   dispatch(userData(values))
                   toast.success(response.data.message)
-                  navigate(`/${response.data.userType}/home`,{replace:true})
+                  if(response.data.userType === 'freelancer'){
+                    navigate(`/${response.data.userType}/home`,{replace:true})
+                  } else {
+                    navigate('/')
+                  }
                 } else {
                   toast.error(response.data.message)
                 }

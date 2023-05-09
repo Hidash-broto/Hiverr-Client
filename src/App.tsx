@@ -25,6 +25,7 @@ import Requirements from './components/gigCreationComponents/Requirements';
 import Gallery from './components/gigCreationComponents/Gallery';
 import Publish from './components/gigCreationComponents/Publish'
 import AdminDashboard from './components/AdminDashboard';
+import GigList from './pages/client/GigList';
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -37,9 +38,7 @@ function App() {
 
           <Route path='/' element={
             <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
-              <ProtectedRouteUser>
               <ClientHome />
-              </ProtectedRouteUser>
             </ErrorBoundary>
           } />
 
@@ -113,6 +112,13 @@ function App() {
               </FreelancerGigCreation>
             </ErrorBoundary>
           } />
+
+          <Route path='/client/gigList' element={
+            <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+              <GigList />
+            </ErrorBoundary>
+          }
+          />
 
         </Routes>
       </BrowserRouter>

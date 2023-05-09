@@ -1,7 +1,7 @@
 import { Step, StepLabel, Stepper, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import React from 'react'
-import UserNav from '../../components/UserNav'
+import FreelancerNav from '../../components/FreelancerNav'
 import { useSelector } from 'react-redux'
 
 
@@ -13,7 +13,7 @@ function FreelancerGigCreation(props:any) {
 
   return (
     <>
-      <UserNav />
+      <FreelancerNav />
       <Container className='stepper' sx={{marginTop:'20px', borderBottom:'solid 1px', width:'1350px', height:'73px'}}>
       <Stepper activeStep={page} alternativeLabel>
   {steps.map((label) => (

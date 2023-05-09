@@ -98,6 +98,8 @@ export const useStyle = makeStyles((theme) => ({
         backgroundColor: '#002D04',
         marginLeft: '30px',
         borderRadius: '20px',
-        position:'relative'
+        position:'relative',
+        marginTop: '80px',
+        marginBottom: '20px'
     }
 }))

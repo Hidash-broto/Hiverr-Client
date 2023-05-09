@@ -10,6 +10,11 @@ import Swal from "sweetalert2";
 
 function AdminDashboard() {
     const [gigs, setGigs]:any = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage] = useState(3)
+    const indexOfLast = currentPage * postsPerPage
+    const indexOfFirst = indexOfLast - postsPerPage
+    let currentLists:any = []
     const user = useSelector((state: any) => state.user)
     const letter = user.value.firstName ? user.value.firstName.charAt(0) : 'H'
     console.log(letter)

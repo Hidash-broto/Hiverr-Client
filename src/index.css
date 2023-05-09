@@ -117,6 +117,53 @@ font-family: 'Oswald', sans-serif;
   margin-left: -25px;
   width: 1351px
 }
-/* .css-e53awj-MuiStack-root>:not(style)+:not(style) {
-  margin: 5px !important;
-} */
+.ClientHomeBanner {
+  width: 1300px;
+  height: 330px;
+  background: url('components/clientHomePageComponents/blue-1634110.png');
+  background-repeat: no-repeat;
+  background-size: 1300px 330px;
+  margin-top: 30px;
+  border-radius: 30px;
+  max-width: 2000px !important;
+}
+.clientHomeCardImg {
+  height: 100%;
+  width: 345px !important;
+  transition: 1000ms !important;
+
+}
+.clientHomeCard {
+  overflow: hidden;
+}
+.clienCardGroup {
+  width: 1200px !important;
+  margin-left: 45px !important;
+  filter: drop-shadow(2px 2px 5px #0b103b);
+}
+.clientHomeCard {
+  margin-top: 50px;
+  margin-left: 50px;
+  width: 345px !important
+}
+.clientHomeCardContent {
+  margin-top: -50px;
+  margin-left: -2px;
+  background: rgba(255, 255, 255, 0.8);
+  color: white;
+  width: 350px;
+  height: 47px;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  transition: 1000ms !important;
+}
+.clienCardGroup:hover .clientHomeCardContent{
+  visibility: visible;
+  opacity: 1;
+}
+.clienCardGroup:hover .clientHomeCardImg{
+  transform: scale(1.1) rotate(-3deg);
+  cursor: pointer;
+}
+ 
