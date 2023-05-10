@@ -166,4 +166,16 @@ font-family: 'Oswald', sans-serif;
   transform: scale(1.1) rotate(-3deg);
   cursor: pointer;
 }
- 
+.gigListCard {
+  filter: drop-shadow(1px 1px 2px #0b103b);
+}
+.gigListCardGroup {
+  margin-left: -50px !important;
+  padding-bottom: 10px !important;
+}
+.gigListCard:hover .gigListTitle{
+  color: #7a6b00 !important
+}
+.gigListCard:hover {
+  cursor: pointer;
+}
