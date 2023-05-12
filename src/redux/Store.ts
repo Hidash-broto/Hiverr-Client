@@ -6,15 +6,17 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from './User';
 import gigReducer from './Gig';
 import gigPageList from './ClientGigPage';
+import MesssageSelectedUser from './MessageSelectedUserSlice';
 
 const rootReducer = combineReducers({
     user: userReducer,
     gig: gigReducer,
-    gigList: gigPageList
+    gigList: gigPageList,
+    messageUser: MesssageSelectedUser
 })
 
 const persistConfig = {
-    key: 'root', // this is the key used to store the persisted state in storage
+    key: 'root',
     storage,
   };
 

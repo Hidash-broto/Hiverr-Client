@@ -22,10 +22,10 @@ import { red } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import UserFooter from "../../components/UserFooter";
-import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
 import { GridList } from "@material-ui/core";
 import { toast } from "react-hot-toast";
 import { gigDt } from "../../redux/Gig";
@@ -33,29 +33,29 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function GigList() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  let [gigs, setGigs] = useState([])
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  let [gigs, setGigs] = useState([]);
   const gigCat = useSelector((state: any) => state.gigList.gigPage);
   console.log(gigCat);
   useEffect(() => {
     const fetch = () => {
       axios
-      .post(`${process.env.REACT_APP_BASE_URL}/client/gigList`, {
-        gigCat: gigCat,
-      })
-      .then((response) => {
-        if(response.data.status) {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          setGigs(response.data.data)
-          console.log(gigs.length)
-        }else {
-          alert(response.data.message);
-        }
-      });
-    }
-    fetch()
-  })
+        .post(`${process.env.REACT_APP_BASE_URL}/client/gigList`, {
+          gigCat: gigCat,
+        })
+        .then((response) => {
+          if (response.data.status) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            setGigs(response.data.data);
+            console.log(gigs.length);
+          } else {
+            alert(response.data.message);
+          }
+        });
+    };
+    fetch();
+  });
   interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
   }
@@ -77,14 +77,14 @@ function GigList() {
     setExpanded(!expanded);
   };
 
-  const handleClick = (gig:any) => {
+  const handleClick = (gig: any) => {
     try {
-      dispatch(gigDt(gig))
-      navigate('/client/gigDt')
-    } catch (error:Error|any) {
-      toast.error(error.message)
+      dispatch(gigDt(gig));
+      navigate("/client/gigDt");
+    } catch (error: Error | any) {
+      toast.error(error.message);
     }
-  }
+  };
 
   return (
     <>
@@ -164,108 +164,137 @@ function GigList() {
               Featured work from our best freelancers
             </Typography>
           </Stack>
-          <GridList cols={5} className='gigListCardGroup' >
-          {
-            gigs.map((gig: any) => {
+          <GridList cols={5} className="gigListCardGroup">
+            {gigs.map((gig: any) => {
               return (
-                <Card onClick={() => {
-                  handleClick(gig)
-                }} sx={{ maxWidth: 345, marginTop: '50px', marginLeft: '50px', height: '450px !important' }} className='gigListCard'>
-            <CardHeader
-              avatar={
-                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                  {gig.userId.firstName.charAt(0)}
-                </Avatar>
-              }
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={gig.userId.firstName}
-              subheader={`${gig.createdAt? gig.createdAt:'13-04-2023'}`}
-            />
-            <CardMedia
-              component="img"
-              height="194"
-              image={gig.images[0]}
-              alt="Paella dish"
-              sx={{borderTop: 'solid 1px #b5b5b5'}}
-            />
-            <CardContent>
-              <Typography color='#C90138' className='gigListTitle' sx={{fontFamily: "cursive", transition: '1s'}} variant='h5'>{gig.title}</Typography>
-              <Typography variant="h5"><CurrencyRupeeIcon/>{gig.totalPrice}</Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-              <ExpandMore
-                expand={expanded}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <CardContent>
-                <TableBody sx={{marginLeft: '30px'}}>
-                <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-                  <TableCell component="th" scope="row">
-                    Delivey Time
-                  </TableCell>
-              <TableCell align="right">{`${gig.deliveryTime} Days`}</TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-                  <TableCell component="th" scope="row">
-                    Hosting Setup
-                  </TableCell>
-              <TableCell align="right">{`${gig.hostingSetup}`}</TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-                  <TableCell component="th" scope="row">
-                    Licenced Images
-                  </TableCell>
-              <TableCell align="right">{`${gig.licensedImages} Images`}</TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-                  <TableCell component="th" scope="row">
-                    Number of Pages
-                  </TableCell>
-              <TableCell align="right">{`${gig.numberOfPages} Pages`}</TableCell>
-            </TableRow>
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-                  <TableCell component="th" scope="row">
-                    Revisions
-                  </TableCell>
-              <TableCell align="right">{`${gig.revisions}`}</TableCell>
-            </TableRow>
-                </TableBody>
-              </CardContent>
-            </Collapse>
-          </Card>
-              )
-            })
-          }
+                <Card
+                  onClick={() => {
+                    handleClick(gig);
+                  }}
+                  sx={{
+                    maxWidth: 345,
+                    marginTop: "50px",
+                    marginLeft: "50px",
+                    height: "450px !important",
+                  }}
+                  className="gigListCard"
+                >
+                  <CardHeader
+                    avatar={
+                      <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                        {gig.userId.firstName.charAt(0)}
+                      </Avatar>
+                    }
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={gig.userId.firstName}
+                    subheader={`${
+                      gig.createdAt ? gig.createdAt : "13-04-2023"
+                    }`}
+                  />
+                  <CardMedia
+                    component="img"
+                    height="194"
+                    image={gig.images[0]}
+                    alt="Paella dish"
+                    sx={{ borderTop: "solid 1px #b5b5b5" }}
+                  />
+                  <CardContent>
+                    <Typography
+                      color="#C90138"
+                      className="gigListTitle"
+                      sx={{ fontFamily: "cursive", transition: "1s" }}
+                      variant="h5"
+                    >
+                      {gig.title}
+                    </Typography>
+                    <Typography variant="h5">
+                      <CurrencyRupeeIcon />
+                      {gig.totalPrice}
+                    </Typography>
+                  </CardContent>
+                  <CardActions disableSpacing>
+                    <IconButton aria-label="add to favorites">
+                      <FavoriteIcon />
+                    </IconButton>
+                    <IconButton aria-label="share">
+                      <ShareIcon />
+                    </IconButton>
+                    <ExpandMore
+                      expand={expanded}
+                      onClick={handleExpandClick}
+                      aria-expanded={expanded}
+                      aria-label="show more"
+                    >
+                      <ExpandMoreIcon />
+                    </ExpandMore>
+                  </CardActions>
+                  <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                      <TableBody sx={{ marginLeft: "30px" }}>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            Delivey Time
+                          </TableCell>
+                          <TableCell align="right">{`${gig.deliveryTime} Days`}</TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            Hosting Setup
+                          </TableCell>
+                          <TableCell align="right">{`${gig.hostingSetup}`}</TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            Licenced Images
+                          </TableCell>
+                          <TableCell align="right">{`${gig.licensedImages} Images`}</TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            Number of Pages
+                          </TableCell>
+                          <TableCell align="right">{`${gig.numberOfPages} Pages`}</TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            Revisions
+                          </TableCell>
+                          <TableCell align="right">{`${gig.revisions}`}</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </CardContent>
+                  </Collapse>
+                </Card>
+              );
+            })}
           </GridList>
         </Container>
       </div>
-      <UserFooter/>
+      <UserFooter />
     </>
   );
 }
