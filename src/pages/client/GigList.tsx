@@ -45,10 +45,11 @@ function GigList() {
           gigCat: gigCat,
         })
         .then((response) => {
+          console.log(response)
           if (response.data.status) {
             // eslint-disable-next-line react-hooks/exhaustive-deps
             setGigs(response.data.data);
-            console.log(gigs.length);
+            console.log(gigs,'==');
           } else {
             alert(response.data.message);
           }
@@ -182,7 +183,7 @@ function GigList() {
                   <CardHeader
                     avatar={
                       <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        {gig.userId.firstName.charAt(0)}
+                        {gig.userId.firstName.charAt(0)?gig.userId.firstName.charAt(0):''}
                       </Avatar>
                     }
                     action={
@@ -190,7 +191,7 @@ function GigList() {
                         <MoreVertIcon />
                       </IconButton>
                     }
-                    title={gig.userId.firstName}
+                    title={gig.userId.firstName?gig.userId.firstName:''}
                     subheader={`${
                       gig.createdAt ? gig.createdAt : "13-04-2023"
                     }`}

@@ -1,7 +1,6 @@
-import { Box, Container } from '@mui/system'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Container } from '@mui/system'
 import React from 'react'
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FreelancerNav from '../../components/FreelancerNav'
 

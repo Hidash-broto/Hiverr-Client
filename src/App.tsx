@@ -166,6 +166,14 @@ function App() {
               </ErrorBoundary>
             }
           />
+          <Route
+            path="/freelancer/chatPage"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <ChatPage />
+              </ErrorBoundary>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

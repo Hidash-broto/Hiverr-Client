@@ -56,8 +56,13 @@ function Login() {
               onSubmit={async (values) => {
                 const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, values)
                 if (response.data.status) {
-                  localStorage.setItem('userType', response.data.userType)
-                  localStorage.setItem('token', response.data.token)
+                  let client: string|boolean|any = response.data.userType==='client'?true:false
+                  localStorage.setItem('client', client)
+                  if(client) {
+                    localStorage.setItem('clientToken', response.data.token)
+                  }else {
+                    localStorage.setItem('freelancerToken', response.data.token)
+                  }
                   dispatch(userData(values))
                   toast.success(response.data.message)
                   if(response.data.userType === 'freelancer'){
@@ -92,7 +97,7 @@ function Login() {
                         </MenuItem>
                       ))}
                     </TextField>
-                    <Button className='mt-5 ' size='large' type='submit' variant="contained">Login</Button>
+                    <Button className='mt-5' size='large' type='submit' variant="contained">Login</Button>
                     <Link className='right' sx={{ marginLeft: '222px', marginTop: '7px', fontWeight: '5px' }}>New User</Link>
                   </Stack>
                   <Button onClick={googleAuth}>Login with Google</Button>

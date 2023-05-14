@@ -55,7 +55,7 @@ const Container = styled.div`
   grid-template-columns: 5% 95%;
   background-color: #002D04;
   padding: 0 2rem;
-  margin-top: 375px;
+  margin-top: 10px;
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     padding: 0 1rem;
     gap: 1rem;
@@ -106,12 +106,12 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     gap: 2rem;
-    background-color: #ffffff34;
+    background-color: #dbdbdb;
     input {
       width: 90%;
       height: 60%;
       background-color: transparent;
-      color: white;
+      color: black;
       border: none;
       padding-left: 1rem;
       font-size: 1.2rem;
