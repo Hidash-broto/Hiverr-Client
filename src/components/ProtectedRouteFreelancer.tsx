@@ -8,17 +8,18 @@ type childrenProp = {
   children: React.ReactNode;
 }
 
-function ProtectedRouteUser (props:childrenProp) {
+function ProtectedRouteUserFreelancer (props:childrenProp) {
 
 
   const {user} = useSelector((state:any) => state.user)
+  const client = localStorage.getItem('client')
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const token = localStorage.getItem('clientToken')
+  const token = localStorage.getItem('freelancerToken')
   const getUser = async () => {
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/get-user-info-by-id`, {token:token}, {
       headers: {
-          Authorization: `Bearer ${localStorage.getItem('clientToken')}`
+          Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
       }
   })
   console.log(response.data);
@@ -26,9 +27,8 @@ function ProtectedRouteUser (props:childrenProp) {
     if (response.data.status) {
       dispatch(userData(response.data.data))
     }else {
-      localStorage.removeItem('clientToken')
-      localStorage.removeItem('client')
-      navigate('/login')
+      localStorage.clear()
+      navigate('/freelancer/login')
     }
   }
 
@@ -36,7 +36,6 @@ function ProtectedRouteUser (props:childrenProp) {
     if(!user) {
       getUser()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[user])
 
   console.log(token);
@@ -54,4 +53,4 @@ function ProtectedRouteUser (props:childrenProp) {
 
 }
 
-export default ProtectedRouteUser
+export default ProtectedRouteUserFreelancer

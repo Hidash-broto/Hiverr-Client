@@ -12,19 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 function Requirements() {
     const dispatch = useDispatch()
-    let sample = [
-        {
-        qn: 'Is this order for personal use, business use, or a side project?',
-        opt: 'For Business / Personal / Side Project use'
-    },{
-        qn: 'Which industry do you work in?',
-        opt: '3D Design, Academic Education, Academic Writing, Accounting, ..., Other'
-    },{
-        qn: 'What are you looking to achieve with this order?',
-        opt: 'Build a mobile app, Build a website, Create an animation, Develop a game, ..., Other'
-    }
-]
-const [questions, setQuestion] = useState([
+const [questions] = useState([
     {
     qn: 'Is this order for personal use, business use, or a side project?',
     opt: 'For Business / Personal / Side Project use'
@@ -58,7 +46,7 @@ const handleSubmit = async () => {
     try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`, {questions,number:4}, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+              Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
             }
         })
         if(response.data.status) {

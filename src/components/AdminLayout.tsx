@@ -78,7 +78,9 @@ function AdminLayout(prop: any) {
       </Tabs>
       </Box>
       <Button onClick={() => {
-      localStorage.clear()
+        let isAdmin: boolean|string|any = false
+      localStorage.removeItem('adminToken')
+      localStorage.setItem('isAdmin', isAdmin)
       navigate('/admin/login')
     }} sx={{marginLeft:'75px'}} variant="outlined" color="error">
          Logout

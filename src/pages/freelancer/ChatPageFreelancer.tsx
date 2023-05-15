@@ -1,16 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Avatar, Box, Divider, Stack, Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import React, { useEffect, useRef, useState } from 'react'
-import ClientNav from '../../components/clientHomePageComponents/ClientNav'
 import axios from 'axios'
 import ChatInput from '../../components/chatComponents/ChatInput'
 import UserFooter from '../../components/UserFooter'
 import { io } from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
-import { toast } from 'react-hot-toast'
+import FreelancerNav from '../../components/FreelancerNav'
 
-function ChatPage() {
+function ChatPageFreelancer() {
   const socket: any = useRef();
   const [activeMessenger, setActiveMessenger] = useState('');
   const [currentUserId, setCurrentUserId] = useState([]);
@@ -21,17 +19,16 @@ function ChatPage() {
   let ind: number = allUsers.findIndex((obj: any) => obj._id === activeMessenger)
 
     const fetchData = async () => {
-      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/client/getAllMessengers`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/freelancer/getAllMessengers`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('clientToken')}`
+          Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
         }
       })
+      console.log(response.data,'++') 
       setCurrentUserId(response.data.userId)
 
       if(response.data.status) {
         setAllUsers(response.data.users)
-      } else if (response.data.jwt) {
-        toast.error(response.data.message)
       }
     }
     useEffect(()=>{
@@ -40,9 +37,10 @@ function ChatPage() {
           from: currentUserId,
           to: activeMessenger
         })
+        console.log(response)
         setMessages(response.data.projectedMessages)
-                    console.log(messages,'jiji')
       }
+      console.log(messages)
       recieveMessage()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[activeMessenger])
@@ -55,6 +53,7 @@ function ChatPage() {
         socket.current.emit('add-user', currentUserId)
       }
     },[currentUserId])
+
     useEffect(() => {
       if(socket.current) {
         socket.current.on('msg-recieve', (msg: any) => {
@@ -67,6 +66,7 @@ function ChatPage() {
     useEffect(() => {
       arrivalMessage && setMessages((prev: any) => [...prev, arrivalMessage]);
       console.log(messages,'messages')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [arrivalMessage]);
 
   const handleSendMsg = async (msg: string) => {
@@ -75,8 +75,6 @@ var datetime = currentdate.getDay() + "/" + currentdate.getMonth()
 + "/" + currentdate.getFullYear() + " @ " 
 + currentdate.getHours() + ":" 
 + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-
-console.log(activeMessenger, ',', currentUserId, ',', msg)
 
     socket.current.emit("send-msg", {
       to: activeMessenger,
@@ -100,7 +98,7 @@ console.log(activeMessenger, ',', currentUserId, ',', msg)
   }, [messages]);
   return (
     <>
-    <ClientNav />
+    <FreelancerNav />
     <div style={{width: '1350px', height: '700px'}} className='djfkd'>
     <Container sx={{backgroundColor: '#dbdbdb', width: '1200px', height: '500px', marginTop: '70px', position: 'absolute', marginLeft: '70px', borderTopLeftRadius: '5px', borderBottomLeftRadius: '5px'}}>
       <Stack direction='column' spacing={1}>
@@ -160,7 +158,6 @@ console.log(activeMessenger, ',', currentUserId, ',', msg)
           <Stack direction='column' sx={{width: '840px', height: '355px',marginTop: '20px'}} className='clientChatContainer'>
             {
               messages.map((msg:any) => {
-                console.log(messages,'msg')
                 return(
             <div ref={scrollRef as any} key={uuidv4 as any} className='msgContainer'>
             <div className={`${msg.fromSelf ? 'sended message-blue' : 'recieved message-orange'}`}>
@@ -183,4 +180,4 @@ console.log(activeMessenger, ',', currentUserId, ',', msg)
   )
 }
 
-export default ChatPage
+export default ChatPageFreelancer

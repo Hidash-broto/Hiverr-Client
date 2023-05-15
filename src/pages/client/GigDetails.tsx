@@ -57,9 +57,10 @@ function GigDetails() {
   };
   const handleMessage = async () => {
     try {
+      const client: any = localStorage.getItem('client')
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/client/messageUserAdd`,{freelancerId: gig.userId._id},{
         headers : {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem(client?'clientToken': 'freelancerToken')}`
         }
       })
       console.log()
@@ -70,7 +71,7 @@ function GigDetails() {
         localStorage.clear()
         navigate('/login')
       }else {
-        toast.error(response.data.message)
+        toast.error('response.data.message')
       }
     } catch (err: Error|any) {
       toast.error(err.message)

@@ -15,7 +15,7 @@ function Publish () {
       try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`, {number: 6},{
           headers: {
-            Authorization : `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
           }
         })
         if(response.data.status) {

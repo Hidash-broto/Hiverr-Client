@@ -1,6 +1,6 @@
 import { Button, MenuItem, TextField, Typography } from "@mui/material";
 import { Container, Stack } from "@mui/system";
-import React, { startTransition, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { gigPageChange } from "../../redux/Gig";
 import { Formik } from "formik";
@@ -20,7 +20,7 @@ function Pricing() {
     if(isNaN(state.totalPrice)) {
       state.totalPrice = price
     }
-    if (action.type == "price") {
+    if (action.type === "price") {
       if(price === document.getElementById('totalPrice') && parseInt(imagePrice) > 0) {
         console.log('aanu');
       }
@@ -38,8 +38,6 @@ function Pricing() {
   for (let i = 1; i <= 100; i++) {
     deliveryTime.push(i);
   }
-  const arr = [];
-  let totalPrice = 0;
   const dispatch = useDispatch();
   const initialValue = {
     deliveryTime: "",
@@ -92,7 +90,7 @@ function Pricing() {
           console.log(values, "=k=");
           const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`, {values, number:2}, {
             headers:{
-              Authorization: `Bearer ${localStorage.getItem('token')}`
+              Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
             }
           })
           if(response.data.status) {

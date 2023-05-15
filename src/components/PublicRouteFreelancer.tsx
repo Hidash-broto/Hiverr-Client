@@ -4,10 +4,10 @@ type childrenProp = {
     children: React.ReactNode;
   }
 
-export default function ProtectedRouteUser (props:childrenProp) {
-   const client: any = localStorage.getItem('client')
-    if(localStorage.getItem(client)) {
-            return <Navigate to='/' />
+export default function PublicRouteFreelancer (props:childrenProp) {
+   const user = localStorage.getItem('freelancerToken')
+    if(user) {
+            return <Navigate to='/freelancer/home' />
     }else {
         return (
             <>

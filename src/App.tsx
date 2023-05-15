@@ -28,6 +28,9 @@ import AdminDashboard from "./components/AdminDashboard";
 import GigList from "./pages/client/GigList";
 import GigDetails from "./pages/client/GigDetails";
 import ChatPage from "./pages/client/ChatPage";
+import ProtectedRouteUserFreelancer from "./components/ProtectedRouteFreelancer";
+import PublicRouteFreelancer from "./components/PublicRouteFreelancer";
+import ChatPageFreelancer from "./pages/freelancer/ChatPageFreelancer";
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -85,6 +88,18 @@ function App() {
               </ErrorBoundary>
             }
           />
+
+<Route
+            path="/freelancer/login"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <PublicRouteFreelancer>
+                  <Login />
+                </PublicRouteFreelancer>
+              </ErrorBoundary>
+            }
+          />
+
           <Route path="/freelancer/signup" element={<FreelanserSignup />} />
           <Route
             path="/admin"
@@ -117,9 +132,9 @@ function App() {
             path="/freelancer/home"
             element={
               <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
-                <ProtectedRouteUser>
+                <ProtectedRouteUserFreelancer>
                   <FreelancerHome />
-                </ProtectedRouteUser>
+                </ProtectedRouteUserFreelancer>
               </ErrorBoundary>
             }
           />
@@ -128,15 +143,29 @@ function App() {
             path="/freelancer/gigCreation"
             element={
               <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
-                <FreelancerGigCreation>
-                  <Overview />
-                  <Pricing />
-                  <Discription />
-                  <Requirements />
-                  <Gallery />
-                  <Publish />
-                </FreelancerGigCreation>
-              </ErrorBoundary>
+                <ProtectedRouteUserFreelancer>
+                  <FreelancerGigCreation>
+                    <ProtectedRouteUserFreelancer>
+                    <Overview />
+                    </ProtectedRouteUserFreelancer>
+                   <ProtectedRouteUserFreelancer>
+                    <Pricing />
+                   </ProtectedRouteUserFreelancer>
+                   <ProtectedRouteUserFreelancer>
+                    <Discription />
+                   </ProtectedRouteUserFreelancer>
+                   <ProtectedRouteUserFreelancer>
+                    <Requirements />
+                   </ProtectedRouteUserFreelancer>
+                   <ProtectedRouteUserFreelancer>
+                    <Gallery />
+                   </ProtectedRouteUserFreelancer>
+                   <ProtectedRouteUserFreelancer>
+                    <Publish />
+                   </ProtectedRouteUserFreelancer>
+                   </FreelancerGigCreation>
+                   </ProtectedRouteUserFreelancer>
+                   </ErrorBoundary>
             }
           />
 
@@ -162,7 +191,9 @@ function App() {
             path="/client/chatPage"
             element={
               <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
-                <ChatPage />
+                <ProtectedRouteUser>
+                  <ChatPage />
+                </ProtectedRouteUser>
               </ErrorBoundary>
             }
           />
@@ -170,7 +201,9 @@ function App() {
             path="/freelancer/chatPage"
             element={
               <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
-                <ChatPage />
+                <ProtectedRouteUserFreelancer>
+                  <ChatPageFreelancer />
+                </ProtectedRouteUserFreelancer>
               </ErrorBoundary>
             }
           />

@@ -15,7 +15,9 @@ import { gigPageChange } from "../../redux/Gig";
 
 function Gallery() {
   const [imageUrls]: any = useState([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [videoUrls, setVideoUrls]: any = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [documentUrls, setDocumentUrls] = useState('');
   const [video, setVideo]: any = useState({
     file: [],
@@ -85,6 +87,7 @@ function Gallery() {
       sample[2] = ref(storage, `gigImages/${image3.file.name + v4()}`);
       let img: any;
   
+      // eslint-disable-next-line array-callback-return
       sample.map((imageRef, index) => {
         if (index === 0) {
           img = image1.file;
@@ -106,7 +109,7 @@ function Gallery() {
       async function BackendSave () {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`,  { imageUrls, number: 5 }, {
           headers: {
-            Authorization : `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
           }
         })
         if(response.data.status) {
@@ -118,6 +121,7 @@ function Gallery() {
      
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const uploadVideo = () => {
     const videoRef = ref(storage, `gigVideo/${video.file.name + v4()}`);
     console.log(video.name)
@@ -132,6 +136,7 @@ function Gallery() {
   const dispatch = useDispatch()
 
 
+ // eslint-disable-next-line @typescript-eslint/no-unused-vars
  const  uploadDoc = () => {
     const documentRef = ref(storage, `gigDocument/${document.name + v4()}`)
     uploadBytes(documentRef, document).then((snapshot) => {
@@ -199,7 +204,7 @@ function Gallery() {
                       <img
                         style={{ width: "100%", height: "100%" }}
                         src={image1.filePreview}
-                        alt="Upload Image"
+                        alt=""
                       />
                       <Delete
                         onClick={() => {
@@ -251,7 +256,7 @@ function Gallery() {
                       <img
                         style={{ width: "100%", height: "100%" }}
                         src={image2.filePreview}
-                        alt="Upload Image"
+                        alt=""
                       />
                       <Delete
                         onClick={() => {
@@ -303,7 +308,7 @@ function Gallery() {
                       <img
                         style={{ width: "100%", height: "100%" }}
                         src={image3.filePreview}
-                        alt="Upload Image"
+                        alt=""
                       />
                       <Delete
                         onClick={() => {
@@ -368,6 +373,7 @@ function Gallery() {
                   {video.filePreview != null ? (
                     <>
                       <iframe
+                      title="videoFrame"
                         src={video.filePreview}
                         style={{ width: "100%", height: "100%" }}
                       ></iframe>
@@ -453,6 +459,7 @@ function Gallery() {
                   {document.filePreview != null ? (
                     <>
                       <iframe
+                      title="DocFrame"
                         src={document.filePreview}
                         style={{ width: "100%", height: "100%" }}
                       ></iframe>

@@ -17,7 +17,7 @@ function Overview() {
   const subCategoriesWebDevelopment = ['Frontend Development', 'Backend Development', 'Full Stack Web Development', 'Web Design'];
   const subCategoriesGraphicDesign = ['Marketing & advertising graphic design', 'Packaging graphic design', 'Motion graphic design', 'Logo Design', 'Banner Design'];
   const [keyWord, setKeyWord] = useState('')
-  const [sample, setSample] : any = useState([])
+  const [sample] : any = useState([])
   const handleKeyword = () => {
     sample.push(keyWord)
     console.log(sample)
@@ -40,12 +40,14 @@ function Overview() {
           console.log(values)
           const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/freelancer/gigCreation`, {values, sample, number:1},{
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
+              Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
             }
           })
           if(response.data.status) {
             dispatch(gigPageChange(1))
           }else if(response.data.jwt) {
+            localStorage.removeItem('freelancerToken')
+            localStorage.removeItem('freelancer')
             toast.error('Session Expired')
           }else {
             toast.error(response.data.message)

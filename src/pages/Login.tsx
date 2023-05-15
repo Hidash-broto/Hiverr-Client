@@ -57,7 +57,9 @@ function Login() {
                 const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, values)
                 if (response.data.status) {
                   let client: string|boolean|any = response.data.userType==='client'?true:false
+                  let freelancer: string|boolean|any = response.data.userType==='client'?false:true
                   localStorage.setItem('client', client)
+                  localStorage.setItem('freelancer', freelancer)
                   if(client) {
                     localStorage.setItem('clientToken', response.data.token)
                   }else {
@@ -68,7 +70,7 @@ function Login() {
                   if(response.data.userType === 'freelancer'){
                     navigate(`/${response.data.userType}/home`,{replace:true})
                   } else {
-                    navigate('/')
+                    navigate('/');
                   }
                 } else {
                   toast.error(response.data.message)

@@ -11,7 +11,7 @@ function CientHome() {
     <>
     <ClientNav />
     <Container className='ClientHomeBanner'>
-      <Typography sx={{marginTop: '100px', marginLeft: '50px', position: 'absolute'}} color='white' variant='h4'>{user.value.email.replace('@gmail.com','')},<br /> Here's what you need to build<br/>your website</Typography>
+      <Typography sx={{marginTop: '100px', marginLeft: '50px', position: 'absolute'}} color='white' variant='h4'>{`${user.value.email ? user.value.email.replace('@gmail.com', '') : 'Guest'},`}<br /> Here's what you need to build<br/>your website</Typography>
       <Stack direction='row' spacing={3} sx={{marginLeft: '556px', marginTop: '74px', position: 'absolute'}}>
         <Box sx={{width: '290px', height: '182px', backgroundColor: 'white', borderRadius: '10px', transition: '3', "&:hover":{
           transform: 'scale(1.1)',
