@@ -35,7 +35,8 @@ import { useNavigate } from "react-router-dom";
 function GigList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let [gigs, setGigs] = useState([]);
+  const [search, setSearch]: string | any = useState("");
+  let [gigs, setGigs]: any = useState([]);
   const gigCat = useSelector((state: any) => state.gigList.gigPage);
   console.log(gigCat);
   useEffect(() => {
@@ -45,11 +46,11 @@ function GigList() {
           gigCat: gigCat,
         })
         .then((response) => {
-          console.log(response)
+          console.log(response);
           if (response.data.status) {
             // eslint-disable-next-line react-hooks/exhaustive-deps
             setGigs(response.data.data);
-            console.log(gigs,'==');
+            console.log(gigs, "==");
           } else {
             alert(response.data.message);
           }
@@ -87,9 +88,63 @@ function GigList() {
     }
   };
 
+  useEffect(() => {
+    const fun = async () => {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/getCurrentUser`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("clientToken")}`,
+          },
+        }
+      );
+      if (response.data.status) {
+        response.data.user.favorites?.map((id: any, index: number) => {
+          const element: any = document.getElementById(id)
+            ? document.getElementById(id)
+            : "";
+          return (element.style.color = "red");
+        });
+      }
+    };
+    fun();
+  });
+
+  const handleFav = async (id: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/client/favouriteGig`,
+        { id: id },
+        {
+          headers: {
+            Authorization: `bearer ${localStorage.getItem("clientToken")}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.data.status) {
+        if (response.data.liked) {
+          const element: any = document.getElementById(id)
+            ? document.getElementById(id)
+            : "";
+          element.style.color = "red";
+        } else {
+          const element: any = document.getElementById(id)
+            ? document.getElementById(id)
+            : "";
+          element.style.color = "rgba(0, 0, 0, 0.54)";
+        }
+      }
+    } catch (error) {}
+  };
+
+  const handleSearch: any = (event: any) => {
+    setSearch(event.target.value);
+  };
+
   return (
     <>
-      <ClientNav />
+      <ClientNav search={handleSearch as any} />
       <div>
         <Container
           sx={{
@@ -166,132 +221,152 @@ function GigList() {
             </Typography>
           </Stack>
           <GridList cols={5} className="gigListCardGroup">
-            {gigs.map((gig: any) => {
-              return (
-                <Card
-                  onClick={() => {
-                    handleClick(gig);
-                  }}
-                  sx={{
-                    maxWidth: 345,
-                    marginTop: "50px",
-                    marginLeft: "50px",
-                    height: "450px !important",
-                  }}
-                  className="gigListCard"
-                >
-                  <CardHeader
-                    avatar={
-                      <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        {gig.userId.firstName.charAt(0)?gig.userId.firstName.charAt(0):''}
-                      </Avatar>
-                    }
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={gig.userId.firstName?gig.userId.firstName:''}
-                    subheader={`${
-                      gig.createdAt ? gig.createdAt : "13-04-2023"
-                    }`}
-                  />
-                  <CardMedia
-                    component="img"
-                    height="194"
-                    image={gig.images[0]}
-                    alt="Paella dish"
-                    sx={{ borderTop: "solid 1px #b5b5b5" }}
-                  />
-                  <CardContent>
-                    <Typography
-                      color="#C90138"
-                      className="gigListTitle"
-                      sx={{ fontFamily: "cursive", transition: "1s" }}
-                      variant="h5"
+            {gigs
+              .filter((val: any) => {
+                if (search === "") {
+                  return val;
+                } else if (
+                  val.title.toLowerCase().includes(search.toLowerCase())
+                ) {
+                  return val;
+                }
+              })
+              .map((gig: any) => {
+                return (
+                  <Card
+                    sx={{
+                      maxWidth: 345,
+                      marginTop: "50px",
+                      marginLeft: "50px",
+                      height: "450px !important",
+                    }}
+                    className="gigListCard"
+                  >
+                    <CardHeader
+                      avatar={
+                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                          {gig.userId.firstName.charAt(0)
+                            ? gig.userId.firstName.charAt(0)
+                            : ""}
+                        </Avatar>
+                      }
+                      action={
+                        <IconButton aria-label="settings">
+                          <MoreVertIcon />
+                        </IconButton>
+                      }
+                      title={gig.userId.firstName ? gig.userId.firstName : ""}
+                      subheader={`${
+                        gig.createdAt ? gig.createdAt : "13-04-2023"
+                      }`}
+                    />
+                    <CardMedia
+                      onClick={() => {
+                        handleClick(gig);
+                      }}
+                      component="img"
+                      height="194"
+                      image={gig.images[0]}
+                      alt="Paella dish"
+                      sx={{ borderTop: "solid 1px #b5b5b5" }}
+                    />
+                    <CardContent
+                      onClick={() => {
+                        handleClick(gig);
+                      }}
                     >
-                      {gig.title}
-                    </Typography>
-                    <Typography variant="h5">
-                      <CurrencyRupeeIcon />
-                      {gig.totalPrice}
-                    </Typography>
-                  </CardContent>
-                  <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
-                    <ExpandMore
-                      expand={expanded}
-                      onClick={handleExpandClick}
-                      aria-expanded={expanded}
-                      aria-label="show more"
-                    >
-                      <ExpandMoreIcon />
-                    </ExpandMore>
-                  </CardActions>
-                  <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                      <TableBody sx={{ marginLeft: "30px" }}>
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            Delivey Time
-                          </TableCell>
-                          <TableCell align="right">{`${gig.deliveryTime} Days`}</TableCell>
-                        </TableRow>
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            Hosting Setup
-                          </TableCell>
-                          <TableCell align="right">{`${gig.hostingSetup}`}</TableCell>
-                        </TableRow>
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            Licenced Images
-                          </TableCell>
-                          <TableCell align="right">{`${gig.licensedImages} Images`}</TableCell>
-                        </TableRow>
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            Number of Pages
-                          </TableCell>
-                          <TableCell align="right">{`${gig.numberOfPages} Pages`}</TableCell>
-                        </TableRow>
-                        <TableRow
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell component="th" scope="row">
-                            Revisions
-                          </TableCell>
-                          <TableCell align="right">{`${gig.revisions}`}</TableCell>
-                        </TableRow>
-                      </TableBody>
+                      <Typography
+                        color="#C90138"
+                        className="gigListTitle"
+                        sx={{ fontFamily: "cursive", transition: "1s" }}
+                        variant="h5"
+                      >
+                        {gig.title}
+                      </Typography>
+                      <Typography variant="h5">
+                        <CurrencyRupeeIcon />
+                        {gig.totalPrice}
+                      </Typography>
                     </CardContent>
-                  </Collapse>
-                </Card>
-              );
-            })}
+                    <CardActions disableSpacing>
+                      <IconButton
+                        id={gig._id}
+                        aria-label="add to favorites"
+                        onClick={() => handleFav(gig._id)}
+                      >
+                        <FavoriteIcon />
+                      </IconButton>
+                      <IconButton aria-label="share">
+                        <ShareIcon />
+                      </IconButton>
+                      <ExpandMore
+                        expand={expanded}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                      >
+                        <ExpandMoreIcon />
+                      </ExpandMore>
+                    </CardActions>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                      <CardContent>
+                        <TableBody sx={{ marginLeft: "30px" }}>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              Delivey Time
+                            </TableCell>
+                            <TableCell align="right">{`${gig.deliveryTime} Days`}</TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              Hosting Setup
+                            </TableCell>
+                            <TableCell align="right">{`${gig.hostingSetup}`}</TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              Licenced Images
+                            </TableCell>
+                            <TableCell align="right">{`${gig.licensedImages} Images`}</TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              Number of Pages
+                            </TableCell>
+                            <TableCell align="right">{`${gig.numberOfPages} Pages`}</TableCell>
+                          </TableRow>
+                          <TableRow
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              Revisions
+                            </TableCell>
+                            <TableCell align="right">{`${gig.revisions}`}</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </CardContent>
+                    </Collapse>
+                  </Card>
+                );
+              })}
           </GridList>
         </Container>
       </div>

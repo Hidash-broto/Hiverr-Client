@@ -56,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function ClientNav() {
+export default function ClientNav(search: any) {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -162,7 +162,7 @@ export default function ClientNav() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{backgroundColor: '#002D04'}} position="static">
+      <AppBar sx={{backgroundColor: '#002D04 !important'}} position="static">
         <Toolbar>
           <img style={{width: '150px'}} src="/img/HiverrWhiteLogo.png" alt="Logo" />
           <Search>
@@ -172,11 +172,14 @@ export default function ClientNav() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => search.search?search.search(e):''}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={() => {
+            navigate('/client/favourites')
+          }}>
                 <FavoriteIcon />
             </IconButton>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">

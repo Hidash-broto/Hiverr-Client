@@ -9,7 +9,8 @@ import {LoadingPosts} from '../lazyLoading/LoadingPosts'
 import clsx from "clsx";
 
 
-function ClientHomeCards() {
+function ClientHomeCards(searchData: any) {
+  console.log(searchData, '80')
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const dispatch = useDispatch()
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -82,7 +83,13 @@ function ClientHomeCards() {
     <>
               <GridList cols={4} className='clienCardGroup'>
           {
-            data.map((card:Object[]|any, index:number) => {
+            data.filter((val: any) => {
+              if(searchData.search === '') {
+                return val
+              } else if (val.name.toLowerCase().includes(searchData.search.toLowerCase())) {
+                return val
+              }
+            }).map((card:Object[]|any, index:number) => {
               return(
                 <div onClick={() => handleClick(index)} className="clientHomeCard">
                   <img className='clientHomeCardImg' src={card.image} alt="" />

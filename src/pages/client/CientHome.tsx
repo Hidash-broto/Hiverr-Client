@@ -4,12 +4,17 @@ import ClientNav from '../../components/clientHomePageComponents/ClientNav'
 import { useSelector } from 'react-redux'
 import UserFooter from '../../components/UserFooter'
 import ClientHomeCards from '../../components/clientHomePageComponents/ClientHomeCards'
+import { useState } from 'react'
 
 function CientHome() {
+  const [search, setSearch]: any = useState('')
   const user = useSelector((state:any) => state.user)
+  const handleSearch = (event: any) => {
+    setSearch(event.target.value)
+  }
   return (
     <>
-    <ClientNav />
+    <ClientNav search={handleSearch}/>
     <Container className='ClientHomeBanner'>
       <Typography sx={{marginTop: '100px', marginLeft: '50px', position: 'absolute'}} color='white' variant='h4'>{`${user.value.email ? user.value.email.replace('@gmail.com', '') : 'Guest'},`}<br /> Here's what you need to build<br/>your website</Typography>
       <Stack direction='row' spacing={3} sx={{marginLeft: '556px', marginTop: '74px', position: 'absolute'}}>
@@ -34,7 +39,7 @@ function CientHome() {
         <Typography color='#0b103b' variant='h4'>Make it Real with Hiverr.</Typography>
         <Typography color='#0b103b'>Get some Inspirations from 1800+ skills</Typography>
         </Stack>
-        <ClientHomeCards/>
+        <ClientHomeCards search={search}/>
     </Container>
     <UserFooter/>
     </>

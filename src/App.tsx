@@ -31,6 +31,7 @@ import ChatPage from "./pages/client/ChatPage";
 import ProtectedRouteUserFreelancer from "./components/ProtectedRouteFreelancer";
 import PublicRouteFreelancer from "./components/PublicRouteFreelancer";
 import ChatPageFreelancer from "./pages/freelancer/ChatPageFreelancer";
+import Favourites from "./pages/client/Favourites";
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -89,7 +90,7 @@ function App() {
             }
           />
 
-<Route
+          <Route
             path="/freelancer/login"
             element={
               <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
@@ -146,26 +147,26 @@ function App() {
                 <ProtectedRouteUserFreelancer>
                   <FreelancerGigCreation>
                     <ProtectedRouteUserFreelancer>
-                    <Overview />
+                      <Overview />
                     </ProtectedRouteUserFreelancer>
-                   <ProtectedRouteUserFreelancer>
-                    <Pricing />
-                   </ProtectedRouteUserFreelancer>
-                   <ProtectedRouteUserFreelancer>
-                    <Discription />
-                   </ProtectedRouteUserFreelancer>
-                   <ProtectedRouteUserFreelancer>
-                    <Requirements />
-                   </ProtectedRouteUserFreelancer>
-                   <ProtectedRouteUserFreelancer>
-                    <Gallery />
-                   </ProtectedRouteUserFreelancer>
-                   <ProtectedRouteUserFreelancer>
-                    <Publish />
-                   </ProtectedRouteUserFreelancer>
-                   </FreelancerGigCreation>
-                   </ProtectedRouteUserFreelancer>
-                   </ErrorBoundary>
+                    <ProtectedRouteUserFreelancer>
+                      <Pricing />
+                    </ProtectedRouteUserFreelancer>
+                    <ProtectedRouteUserFreelancer>
+                      <Discription />
+                    </ProtectedRouteUserFreelancer>
+                    <ProtectedRouteUserFreelancer>
+                      <Requirements />
+                    </ProtectedRouteUserFreelancer>
+                    <ProtectedRouteUserFreelancer>
+                      <Gallery />
+                    </ProtectedRouteUserFreelancer>
+                    <ProtectedRouteUserFreelancer>
+                      <Publish />
+                    </ProtectedRouteUserFreelancer>
+                  </FreelancerGigCreation>
+                </ProtectedRouteUserFreelancer>
+              </ErrorBoundary>
             }
           />
 
@@ -207,6 +208,17 @@ function App() {
               </ErrorBoundary>
             }
           />
+          <Route
+            path="/client/favourites"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <ProtectedRouteUser>
+                  <Favourites />
+                </ProtectedRouteUser>
+              </ErrorBoundary>
+            }
+          />
+          
         </Routes>
       </BrowserRouter>
     </>
