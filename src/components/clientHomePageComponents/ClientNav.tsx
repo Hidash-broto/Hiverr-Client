@@ -56,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function ClientNav(search: any) {
+export default function ClientNav(props: any) {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -172,7 +172,7 @@ export default function ClientNav(search: any) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
-              onChange={(e) => search.search?search.search(e):''}
+              onChange={(e) => props.search?props.search(e):''}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
@@ -191,6 +191,7 @@ export default function ClientNav(search: any) {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={() => props.handleNotification()}
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />

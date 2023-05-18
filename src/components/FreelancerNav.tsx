@@ -13,11 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
+import { Badge } from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const pages = ['Dashbord', 'Gigs', 'Profile', 'Earnings'];
 const settings = ['Profile', 'Messages', 'Notification', 'Logout'];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar(props:any) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -43,6 +45,7 @@ function ResponsiveAppBar() {
   const navigate = useNavigate()
 
   return (
+    <>
     <AppBar color='transparent' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -78,7 +81,7 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">hi</Typography>
+                  <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -98,6 +101,18 @@ function ResponsiveAppBar() {
                 {page}
               </Button>
             ))}
+          </Box>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, marginRight: '20px' }}>
+          <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+              onClick={props.handleClick}
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -132,6 +147,7 @@ function ResponsiveAppBar() {
         </Toolbar>
       </Container>
     </AppBar>
+    </>
   );
 }
 export default ResponsiveAppBar;

@@ -23,24 +23,24 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import Modal from "@mui/material/Modal";
-import MessageIcon from '@mui/icons-material/Message';
+import MessageIcon from "@mui/icons-material/Message";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { MessageUserChange } from '../../redux/MessageSelectedUserSlice'
+import { MessageUserChange } from "../../redux/MessageSelectedUserSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 
 function GigDetails() {
   const imgCount: number[] | any = [0, 1, 2];
   const [selected, setSelected] = useState(0);
+  const [text, setText] = useState('')
   const gig = useSelector((state: any) => state.gig.gig);
   const [image, setImage] = useState(gig.images[0]);
   const discription = gig.discription;
   const sanitaze = DOMPurify.sanitize(discription);
   let count = 135;
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -57,24 +57,47 @@ function GigDetails() {
   };
   const handleMessage = async () => {
     try {
-      const client: any = localStorage.getItem('client')
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/client/messageUserAdd`,{freelancerId: gig.userId._id},{
-        headers : {
-          Authorization: `Bearer ${localStorage.getItem(client?'clientToken': 'freelancerToken')}`
+      const client: any = localStorage.getItem("client");
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/client/messageUserAdd`,
+        { freelancerId: gig.userId._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(
+              client ? "clientToken" : "freelancerToken"
+            )}`,
+          },
+        }
+      );
+      console.log();
+      if (response.data.status) {
+        dispatch(MessageUserChange(gig.userId._id));
+        navigate("/client/chatPage");
+      } else if (response.data.jwt) {
+        localStorage.clear();
+        navigate("/login");
+      } else {
+        toast.error("response.data.message");
+      }
+    } catch (err: Error | any) {
+      toast.error(err.message);
+    }
+  };
+  const handleRequest = async (gigId: string) => {
+    try {
+      console.log(localStorage.getItem('clientToken'));
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/client/gigRequest`, {gigId: gigId, text: text}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('clientToken')}`
         }
       })
-      console.log()
       if(response.data.status) {
-        dispatch(MessageUserChange(gig.userId._id))
-        navigate('/client/chatPage')
-      }else if(response.data.jwt) {
-        localStorage.clear()
-        navigate('/login')
+        toast.success('Request Submited')
       }else {
-        toast.error('response.data.message')
+        console.log(response.data.message)
       }
-    } catch (err: Error|any) {
-      toast.error(err.message)
+    } catch (error) {
+      
     }
   }
   return (
@@ -241,7 +264,7 @@ function GigDetails() {
             }}
             variant="contained"
           >
-            <MessageIcon/> Message
+            <MessageIcon /> Message
           </Button>
           <Divider sx={{ height: "5px", width: "250px", marginTop: "10px" }} />
           <Stack
@@ -368,9 +391,10 @@ function GigDetails() {
               style={{ marginTop: "30px", width: "100%", height: "150px" }}
               id="outlined-basic"
               placeholder="Ask Webemy Digital Agency a question or share your project details 
-(Project requirement, timeline, budget, etc)"
+              (Project requirement, timeline, budget, etc)"
+              onChange={(e) => setText(e.target.value)}
             />
-            <Button sx={{ marginTop: "15px" }} variant="contained">
+            <Button onClick={() => handleRequest(gig._id)} sx={{ marginTop: "15px" }} variant="contained">
               Submit Request
             </Button>
           </Box>

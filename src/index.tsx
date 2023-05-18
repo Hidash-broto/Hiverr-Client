@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <StyledEngineProvider injectFirst>
+    <StyledEngineProvider injectFirst>  
     <Provider store={store}>
     <App />
     </Provider>
