@@ -7,12 +7,14 @@ import userReducer from './User';
 import gigReducer from './Gig';
 import gigPageList from './ClientGigPage';
 import MesssageSelectedUser from './MessageSelectedUserSlice';
+import FreelancerPage from './FreelancerPage';
 
 const rootReducer = combineReducers({
     user: userReducer,
     gig: gigReducer,
     gigList: gigPageList,
-    messageUser: MesssageSelectedUser
+    messageUser: MesssageSelectedUser,
+    freelancerPage: FreelancerPage,
 })
 
 const persistConfig = {
