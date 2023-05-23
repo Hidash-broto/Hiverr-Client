@@ -9,7 +9,7 @@ import Notification from '../../components/clientComponents/Notification'
 
 function CientHome() {
   const [search, setSearch]: any = useState('')
-  const [notificationClicked, setNotificationClicked] = useState(true)
+  const [notificationClicked, setNotificationClicked] = useState(false)
   const user = useSelector((state:any) => state.user)
   const handleSearch = (event: any) => {
     setSearch(event.target.value)

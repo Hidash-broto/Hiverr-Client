@@ -92,6 +92,7 @@ function GigDetails() {
         }
       })
       if(response.data.status) {
+        handleClose()
         toast.success('Request Submited')
       }else {
         console.log(response.data.message)

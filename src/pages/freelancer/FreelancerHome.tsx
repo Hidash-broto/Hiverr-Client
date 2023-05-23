@@ -7,9 +7,8 @@ import Notification from '../../components/freelancerComponent/Notification'
 
 function FreelancerHome() {
   const navigate = useNavigate();
-  const [notificationClicked, setNotificationClicked]: boolean|any  = useState(true)
+  const [notificationClicked, setNotificationClicked]: boolean|any  = useState(false)
   const handleClick: any = () => setNotificationClicked(!notificationClicked)
-
   return (
     <>
     {
@@ -19,8 +18,9 @@ function FreelancerHome() {
       <Container>
         <Button
           onClick={() => {
-            localStorage.clear();
-            navigate("/login");
+            localStorage.removeItem('freelancerToken');
+            localStorage.removeItem('isFreelancer');
+            navigate("/freelancer/login");
           }}
         >
           Logout

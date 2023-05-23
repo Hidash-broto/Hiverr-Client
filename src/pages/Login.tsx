@@ -54,13 +54,14 @@ function Login() {
                 userType: yup.string().required("*Required")
               })}
               onSubmit={async (values) => {
-                const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, values)
+                const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, values);
+                console.log(response)
                 if (response.data.status) {
                   let client: string|boolean|any = response.data.userType==='client'?true:false
                   let freelancer: string|boolean|any = response.data.userType==='client'?false:true
                   localStorage.setItem('client', client)
                   localStorage.setItem('freelancer', freelancer)
-                  if(client) {
+                  if(response.data.userType==='client') {
                     localStorage.setItem('clientToken', response.data.token)
                   }else {
                     localStorage.setItem('freelancerToken', response.data.token)

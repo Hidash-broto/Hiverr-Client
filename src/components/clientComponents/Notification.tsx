@@ -4,9 +4,15 @@ import { Avatar, Button, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import useRazorpay from "react-razorpay";
 
 function Notification() {
   const [notification, setNotification] = useState([]);
+  const [gigId, setGigId] = useState('');
+  const [freelancerId, setFreelancerId] = useState('');
+  const [currentNotification, setCurrentNotification] = useState('')
+  const Razorpay = useRazorpay()
+  console.log(gigId, freelancerId, currentNotification)
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,6 +36,89 @@ function Notification() {
     };
     fetchData();
   });
+
+  const openPayModal = (amt: number) => {
+    var amount = amt * 100;
+    console.log(amount) // Razorpay considers the amount in paise
+    var options: any = {
+      key: 'rzp_test_0QarnsaitePhae',
+      amount: amount, // 2000 paise = INR 20, amount in paisa
+      name: '',
+      description: '',
+      order_id: '',
+      handler: function (response: any) {
+        console.log(response);
+        var values = {
+          razorpay_signature: response.razorpay_signature,
+          razorpay_order_id: response.razorpay_order_id,
+          transactionid: response.razorpay_payment_id,
+          transactionamount: amount,
+          gigId,
+          freelancerId,
+          currentNotification,
+        };
+        axios
+          .post(`${process.env.REACT_APP_BASE_URL}/client/doPayment`, {values, gigId, freelancerId, currentNotification}, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('clientToken')}`
+            }
+          })
+          .then((res) => {
+            if(res.data.status) {
+              toast.success('Payment Success')
+            }else {
+              toast.error(res.data.message)
+            }
+          })
+          .catch((e) => console.log(e));
+      },
+      prefill: {
+        name: 'Hiverr',
+        email: 'admin@gmail.com',
+        contact: '1234567890',
+      },
+      notes: {
+        address: 'Hello World',
+      },
+      theme: {
+        color: '#528ff0',
+      },
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/client/payment`, { amount: amount })
+      .then((res) => {
+        console.log(res, '-=')
+        options.order_id = res.data.data.id;
+        options.amount = res.data.data.amount;
+        console.log(options);
+        var rzp1: any = new Razorpay(options);
+        rzp1.open();    
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const handlePay = async (gigId1: string, freelancerId1: string) => {
+    try {
+      console.log(gigId1)
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/client/amountPick`, {gigId1}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('clientToken')}`
+        }
+      })
+      console.log(response)
+      if(response.data.status) {
+        console.log(gigId1, freelancerId1)
+        setGigId(gigId1)
+        setFreelancerId(freelancerId1)
+        console.log(gigId, freelancerId, '==')
+        openPayModal(response.data.price)
+      }
+    } catch (error) {
+      toast.error('Something Went Wrong')
+    }
+  }
+
 
 
   return (
@@ -99,6 +188,10 @@ function Notification() {
                   }}
                   variant="contained"
                   color="success"
+                  onClick={() =>{
+                    setCurrentNotification(noti.index)
+                    handlePay(noti.gigId, noti.freelancerId)}
+                  }
                 >
                   Pay
                 </Button>

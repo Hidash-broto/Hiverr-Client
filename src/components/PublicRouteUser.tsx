@@ -5,8 +5,7 @@ type childrenProp = {
   }
 
 export default function ProtectedRouteUser (props:childrenProp) {
-   const client: any = localStorage.getItem('client')
-    if(localStorage.getItem(client)) {
+    if(localStorage.getItem('clientToken')) {
             return <Navigate to='/' />
     }else {
         return (
