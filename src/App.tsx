@@ -32,6 +32,7 @@ import ProtectedRouteUserFreelancer from "./components/ProtectedRouteFreelancer"
 import PublicRouteFreelancer from "./components/PublicRouteFreelancer";
 import ChatPageFreelancer from "./pages/freelancer/ChatPageFreelancer";
 import Favourites from "./pages/client/Favourites";
+import AdminPayments from "./components/AdminPayments";
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -113,6 +114,9 @@ function App() {
                     </Suspense>
                     <Suspense fallback={<Loading />}>
                       <AdminDashboard />
+                    </Suspense>
+                    <Suspense fallback={<Loading />}>
+                      <AdminPayments />
                     </Suspense>
                   </AdminLayout>
                 </ProtectedRoute>

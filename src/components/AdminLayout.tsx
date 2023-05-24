@@ -96,7 +96,7 @@ function AdminLayout(prop: any) {
       {prop.children[0]}
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        {prop.children[2]}
       </TabPanel>
     </Stack>
     </>

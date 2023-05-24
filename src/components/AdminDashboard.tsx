@@ -7,24 +7,26 @@ import { toast } from 'react-hot-toast'
 import { useStyle } from '../style'
 import { useSelector } from 'react-redux'
 import Swal from "sweetalert2";
+import ReactLoading from "react-loading";
 
 function AdminDashboard() {
     const [gigs, setGigs]:any = useState([])
-    const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage] = useState(3)
-    const indexOfLast = currentPage * postsPerPage
-    const indexOfFirst = indexOfLast - postsPerPage
-    let currentLists:any = []
+    const [loading, setLoading] = useState(true)
+    const [emptyData, setEmptyData] = useState(false)
     const user = useSelector((state: any) => state.user)
     const letter = user.value.firstName ? user.value.firstName.charAt(0) : 'H'
     console.log(letter)
     const classes = useStyle()
     useEffect(() => {
-        console.log('useEffect')
         const getAllPendingGig = async () => {
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/admin/getAllPendingGigs`)
+            setLoading(false)
             if(response.data.status) {
-                setGigs(response.data.gigs)
+                if(response.data.gigs.length > 0){
+                    setGigs(response.data.gigs)
+                }else {
+                    setEmptyData(true)
+                }
             } else {
                 toast.error(response.data.message)
             }
@@ -51,11 +53,23 @@ function AdminDashboard() {
     <Container className={classes.contentContainer}>
         <Typography color='#cc3300' sx={{marginTop: '30px', position:'absolute', marginLeft: '20px'}} variant='h3'>Dashboard</Typography>
         <Stack direction='column' spacing={3} sx={{marginTop: '110px', marginLeft: '20px', position:'absolute'}} >
-            {gigs.map((gig:any) => {
+            {loading?               <ReactLoading
+              type="spinningBubbles"
+              color="#0000FF"
+              height={100}
+              width={50}
+              className={classes.listLoading}
+              />:
+              emptyData?
+              <Stack sx={{width: '450px', height: '400px', marginLeft: '313px', marginTop: '0px'}} direction='column'>
+                <img style={{width: '300px', height: '300px'}} src="/img/folder.png" alt="" />
+                <Typography variant='h3' color='#5e79ff' sx={{fontFamily: 'monospace', filter: 'drop-shadow(1px 1px 1px #000000)'}}>No Pending Gigs</Typography>
+                </Stack>:
+            gigs.map((gig:any) => {
                 console.log(gig.title,'==')
             return <Box sx={{width: '980px', height: '140px', border: 'solid 1px', backgroundColor: 'white'}}>
                 <Stack direction='row' >
-                    <img style={{width:'100px', height: '100px', marginTop: '20px', marginLeft: '40px', borderRadius: '5px', border: 'solid 1px'}} src={gig.images[0]} alt="Image" />
+                    <img style={{width:'100px', height: '100px', marginTop: '20px', marginLeft: '40px', borderRadius: '5px', border: 'solid 1px'}} src={gig.images[0]} alt="" />
                     <Box className='ml-10' sx={{width: '70px', height: '70px', borderRadius: '100px',backgroundColor: '#cccccc', marginTop: '30px' }}>
                         <Typography align='center' sx={{marginTop: '15px'}} variant='h4'>{letter}</Typography>
                     </Box>

@@ -40,6 +40,7 @@ function UsersList() {
             }
         }
         fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     currentLists = user.slice(indexOfFirst, indexOfLast)
     console.log(currentLists)
