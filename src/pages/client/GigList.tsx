@@ -222,6 +222,7 @@ function GigList() {
           </Stack>
           <GridList cols={5} className="gigListCardGroup">
             {gigs
+              // eslint-disable-next-line array-callback-return
               .filter((val: any) => {
                 if (search === "") {
                   return val;

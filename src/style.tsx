@@ -101,5 +101,15 @@ export const useStyle = makeStyles((theme) => ({
         position:'relative',
         marginTop: '80px',
         marginBottom: '20px'
+    },
+    freelancerDashLoading: {
+        marginTop:'307px',
+        marginLeft:'870px',
+        position:'absolute'
+    },
+    freelancerProfileLoading: {
+        marginLeft: '830px',
+        marginTop: '93px',
+        width:'10% !important'
     }
 }))

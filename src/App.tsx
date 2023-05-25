@@ -33,6 +33,8 @@ import PublicRouteFreelancer from "./components/PublicRouteFreelancer";
 import ChatPageFreelancer from "./pages/freelancer/ChatPageFreelancer";
 import Favourites from "./pages/client/Favourites";
 import AdminPayments from "./components/AdminPayments";
+import FreelancerEarnings from "./pages/freelancer/FreelancerEarnings";
+import FreelancerProfile from "./pages/freelancer/FreelancerProfile";
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -222,7 +224,29 @@ function App() {
               </ErrorBoundary>
             }
           />
-          
+
+          <Route
+            path="/freelancer/earnings"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <ProtectedRouteUserFreelancer>
+                  <FreelancerEarnings />
+                </ProtectedRouteUserFreelancer>
+              </ErrorBoundary>
+            }
+          />
+
+<Route
+            path="/freelancer/profile"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <ProtectedRouteUserFreelancer>
+                  <FreelancerProfile />
+                </ProtectedRouteUserFreelancer>
+              </ErrorBoundary>
+            }
+          />
+
         </Routes>
       </BrowserRouter>
     </>

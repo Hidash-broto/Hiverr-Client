@@ -1,5 +1,6 @@
 import { Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
+import { useStyle } from "../../style";
 import {
   Alert,
   Avatar,
@@ -14,12 +15,16 @@ import FreelancerNav from "../../components/FreelancerNav";
 import Notification from "../../components/freelancerComponent/Notification";
 import UserFooter from "../../components/UserFooter";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
 function FreelancerHome() {
   const [datas, setDatas]: any = useState([]);
   const [freelancer, setFreelancer]: any = useState({});
+  const [loading, setLoading] = useState(true);
+  const [emptyData, setEmptyData] = useState(false);
   const [notificationClicked, setNotificationClicked]: boolean | any =
     useState(false);
+  const classes = useStyle();
   const handleClick: any = () => setNotificationClicked(!notificationClicked);
 
   useEffect(() => {
@@ -32,28 +37,33 @@ function FreelancerHome() {
           },
         }
       );
+      setLoading(false);
       console.log(response);
       if (response.data.status) {
-        let objs: any = [];
-        // eslint-disable-next-line array-callback-return
-        response.data.orderLists.map((obj: any) => {
-          const days = calculateDateDifference(obj.createdAt.toString());
-          if (days > parseInt(obj.gigId.deliveryTime)) {
-            obj.createdAt =
-              days - parseInt(obj.gigId.deliveryTime) + " days Late";
-            obj.status = "Late";
-            objs.push(obj);
-          } else {
-            obj.createdAt = days + ` ${days === 1 ? "day ago" : "days ago"}`;
-            obj.status = `${
-              parseInt(obj.gigId.deliveryTime) / 4 > days ? "New" : "Progress"
-            }`;
-            objs.push(obj);
-          }
-        });
-        setDatas(objs);
-        console.log(setDatas, "datas");
-        setFreelancer(response.data.freelancer);
+        if (response.data.orderLists.length > 0) {
+          let objs: any = [];
+          // eslint-disable-next-line array-callback-return
+          response.data.orderLists.map((obj: any) => {
+            const days = calculateDateDifference(obj.createdAt.toString());
+            if (days > parseInt(obj.gigId.deliveryTime)) {
+              obj.createdAt =
+                days - parseInt(obj.gigId.deliveryTime) + " days Late";
+              obj.status = "Late";
+              objs.push(obj);
+            } else {
+              obj.createdAt = days + ` ${days === 1 ? "day ago" : "days ago"}`;
+              obj.status = `${
+                parseInt(obj.gigId.deliveryTime) / 4 > days ? "New" : "Progress"
+              }`;
+              objs.push(obj);
+            }
+          });
+          setDatas(objs);
+          console.log(setDatas, "datas");
+          setFreelancer(response.data.freelancer);
+        } else {
+          setEmptyData(true);
+        }
       } else {
         <Alert severity="error">{response.data.message}</Alert>;
       }
@@ -92,6 +102,7 @@ function FreelancerHome() {
           width: "100%",
           paddingBottom: "100px",
           maxWidth: "2000px !important",
+          minHeight: '600px'
         }}
       >
         <Stack direction="row">
@@ -212,147 +223,192 @@ function FreelancerHome() {
                 </Typography>
               </Stack>
             </Box>
-            {datas.map((obj: any) => (
-              <Box
+            {loading ? (
+              <ReactLoading
+                type="spinningBubbles"
+                color="#0000FF"
+                height={100}
+                width={50}
+                className={classes.freelancerDashLoading}
+              />
+            ) : emptyData ? (
+              <Stack
                 sx={{
-                  width: "784px",
-                  height: "240px",
-                  backgroundColor: "white",
-                  position: "abosolute !important",
-                  marginLeft: "513px",
-                  marginTop: "50px",
-                  borderLeft: "solid 4px red",
+                  width: "450px",
+                  height: "400px",
+                  marginLeft: "683px",
+                  marginTop: "0px",
                 }}
+                direction="column"
               >
-                <Stack direction="column">
-                  <Stack
-                    direction="row"
-                    spacing={5}
-                    sx={{ marginTop: "30px", marginLeft: "57px" }}
-                  >
-                    <Box
-                      sx={{
-                        width: "100px",
-                        height: "100px",
-                        backgroundColor: "whitesmoke",
-                      }}
-                    >
-                      <img
-                        style={{ width: "100%", height: "100%" }}
-                        src={obj.gigId.images[0]}
-                        alt=""
-                      />
-                    </Box>
-                    <Avatar
-                      alt={obj.clientId.firstName}
-                      src="/img"
-                      sx={{
-                        width: "80px",
-                        height: "80px",
-                        fontSize: "2rem",
-                        marginTop: "10px !important",
-                        backgroundColor: "#D9D9D9",
-                      }}
-                    />
+                <img
+                  style={{ width: "300px", height: "300px" }}
+                  src="/img/folder.png"
+                  alt=""
+                />
+                <Typography
+                  variant="h3"
+                  color="#5e79ff"
+                  sx={{
+                    fontFamily: "monospace",
+                    filter: "drop-shadow(1px 1px 1px #000000)",
+                  }}
+                >
+                  No Active Gigs
+                </Typography>
+              </Stack>
+            ) : (
+              datas.map((obj: any) => (
+                <Box
+                  sx={{
+                    width: "784px",
+                    height: "240px",
+                    backgroundColor: "white",
+                    position: "abosolute !important",
+                    marginLeft: "513px",
+                    marginTop: "50px",
+                    borderLeft: "solid 4px red",
+                  }}
+                >
+                  <Stack direction="column">
                     <Stack
-                      direction="column"
-                      spacing={0}
-                      sx={{ marginLeft: "20px", marginTop: "20px !important" }}
+                      direction="row"
+                      spacing={5}
+                      sx={{ marginTop: "30px", marginLeft: "57px" }}
                     >
-                      <Typography variant="h6">
-                        {obj.clientId.firstName + "" + obj.clientId.lastName}
-                      </Typography>
-                      <Typography
-                        sx={{ fontSize: "10px", color: "#00DE09" }}
-                        variant="h6"
+                      <Box
+                        sx={{
+                          width: "100px",
+                          height: "100px",
+                          backgroundColor: "whitesmoke",
+                        }}
                       >
-                        View Order
-                      </Typography>
-                    </Stack>
-                    <Stack
-                      direction="column"
-                      spacing={0}
-                      sx={{ marginLeft: "20px", marginTop: "20px !important" }}
-                    >
-                      <Typography variant="h6">Price</Typography>
-                      <Typography sx={{ fontSize: "10px" }} variant="h6">
-                        <CurrencyRupeeIcon
-                          sx={{ width: "14px", height: "10px" }}
+                        <img
+                          style={{ width: "100%", height: "100%" }}
+                          src={obj.gigId.images[0]}
+                          alt=""
                         />
-                        {obj.gigId.totalPrice}
-                      </Typography>
+                      </Box>
+                      <Avatar
+                        alt={obj.clientId.firstName}
+                        src="/img"
+                        sx={{
+                          width: "80px",
+                          height: "80px",
+                          fontSize: "2rem",
+                          marginTop: "10px !important",
+                          backgroundColor: "#D9D9D9",
+                        }}
+                      />
+                      <Stack
+                        direction="column"
+                        spacing={0}
+                        sx={{
+                          marginLeft: "20px",
+                          marginTop: "20px !important",
+                        }}
+                      >
+                        <Typography variant="h6">
+                          {obj.clientId.firstName + "" + obj.clientId.lastName}
+                        </Typography>
+                        <Typography
+                          sx={{ fontSize: "10px", color: "#00DE09" }}
+                          variant="h6"
+                        >
+                          View Order
+                        </Typography>
+                      </Stack>
+                      <Stack
+                        direction="column"
+                        spacing={0}
+                        sx={{
+                          marginLeft: "20px",
+                          marginTop: "20px !important",
+                        }}
+                      >
+                        <Typography variant="h6">Price</Typography>
+                        <Typography sx={{ fontSize: "10px" }} variant="h6">
+                          <CurrencyRupeeIcon
+                            sx={{ width: "14px", height: "10px" }}
+                          />
+                          {obj.gigId.totalPrice}
+                        </Typography>
+                      </Stack>
+                      <Stack
+                        direction="column"
+                        spacing={0}
+                        sx={{
+                          marginLeft: "20px",
+                          marginTop: "20px !important",
+                        }}
+                      >
+                        <Typography variant="h6">Delivery Time</Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "10px",
+                            color: `${obj.status === "Late" ? "red" : "black"}`,
+                          }}
+                          variant="h6"
+                        >
+                          {obj.createdAt}
+                        </Typography>
+                      </Stack>
                     </Stack>
+                    <Divider sx={{ mt: 4 }} />
                     <Stack
-                      direction="column"
-                      spacing={0}
-                      sx={{ marginLeft: "20px", marginTop: "20px !important" }}
+                      sx={{ marginTop: "15px", marginLeft: "30px" }}
+                      direction="row"
                     >
-                      <Typography variant="h6">Delivery Time</Typography>
+                      <Box
+                        sx={{
+                          paddingLeft: "5px",
+                          paddingRight: "5px",
+                          height: "20px",
+                          backgroundColor: `${
+                            obj.status === "Late"
+                              ? "red"
+                              : obj.status === "Progress"
+                              ? "blue"
+                              : "#ff7b00"
+                          }`,
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Typography color="white" sx={{ textAlign: "center" }}>
+                          {obj.status}
+                        </Typography>
+                      </Box>
                       <Typography
                         sx={{
-                          fontSize: "10px",
-                          color: `${obj.status === "Late" ? "red" : "black"}`,
+                          marginLeft: "20px",
+                          marginTop: "20px",
+                          fontSize: "0.7rem !important",
+                          color: "#666666",
                         }}
-                        variant="h6"
+                      >{`${
+                        obj.status === "Late"
+                          ? "You are running late. Deliver now to avoid Negative rating."
+                          : obj.status === "Progress"
+                          ? "We recommend you Deliver early. So there is enough time for revisions"
+                          : "You’ve received a new Order! Check it out."
+                      }`}</Typography>
+                      <Button
+                        sx={{
+                          marginTop: "5px",
+                          position: "absolute",
+                          right: "55px",
+                        }}
+                        variant="outlined"
+                        size="large"
+                        color="success"
                       >
-                        {obj.createdAt}
-                      </Typography>
+                        Delivery Now
+                      </Button>
                     </Stack>
                   </Stack>
-                  <Divider sx={{ mt: 4 }} />
-                  <Stack
-                    sx={{ marginTop: "15px", marginLeft: "30px" }}
-                    direction="row"
-                  >
-                    <Box
-                      sx={{
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                        height: "20px",
-                        backgroundColor: `${
-                          obj.status === "Late"
-                            ? "red"
-                            : obj.status === "Progress"
-                            ? "blue"
-                            : "#ff7b00"
-                        }`,
-                        marginTop: "20px",
-                      }}
-                    >
-                      <Typography color="white" sx={{ textAlign: "center" }}>
-                        {obj.status}
-                      </Typography>
-                    </Box>
-                    <Typography
-                      sx={{
-                        marginLeft: "20px",
-                        marginTop: "20px",
-                        fontSize: "0.7rem !important",
-                        color: "#666666",
-                      }}
-                    >{`${
-                      obj.status === "Late"
-                        ? "You are running late. Deliver now to avoid Negative rating."
-                        : obj.status === "Progress"
-                        ? "We recommend you Deliver early. So there is enough time for revisions"
-                        : "You’ve received a new Order! Check it out."
-                    }`}</Typography>
-                    <Button
-                      sx={{
-                        marginTop: "5px",
-                        position: "absolute",
-                        right: "55px",
-                      }}
-                      variant="outlined"
-                      size="large"
-                      color="success"
-                    >
-                      Delivery Now
-                    </Button>
-                  </Stack>
-                </Stack>
-              </Box>
-            ))}
+                </Box>
+              ))
+            )}
           </Stack>
         </Stack>
       </Container>
