@@ -1,4 +1,4 @@
-import { Button, Fab, MenuItem, TextField, Typography } from '@mui/material'
+import { Alert, Button, Fab, MenuItem, TextField, Typography } from '@mui/material'
 import { Container, Stack } from '@mui/system'
 import React, { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
@@ -33,8 +33,8 @@ function Overview() {
         <Formik initialValues={initialValue}
         validationSchema={yup.object({
           title: yup.string().required('*Title Required').min(30, 'Title is Short'),
-          category: yup.string().required('*Required'),
-          subCategory: yup.string().required('*Required')
+          category: yup.string().required('*Categary Required'),
+          subCategory: yup.string().required('*Sub Category Required')
         })}
         onSubmit={async (values) => {
           console.log(values)
@@ -53,12 +53,15 @@ function Overview() {
             toast.error(response.data.message)
           }
         }}
-        >{({ handleSubmit, handleChange, errors, touched, values}) => (
+        >{({ handleSubmit, handleChange, errors, touched, values}: any) => (
           <form onSubmit={handleSubmit}>
           <Stack direction='column'>
             <Stack direction='row'>
                <Stack sx={{marginLeft:'50px', marginTop:'50px'}} direction='column'>
                 <Typography sx={{marginLeft:'25px'}} variant='h4'>Gig Title</Typography>
+                {errors.title && touched?<Alert severity='error' sx={{position:'absolute', marginTop: '-37px', marginLeft: '450px'}}>{errors.title}</Alert>:
+                errors.category && touched?<Alert severity='error' sx={{position:'absolute', marginTop: '-37px', marginLeft: '450px'}}>{errors.category}</Alert>:
+                errors.subCategory && touched?<Alert severity='error' sx={{position:'absolute', marginTop: '-37px', marginLeft: '450px'}}>{errors.subCategory}</Alert>: ''}
                 <Container sx={{width:'260px'}}>
                 <Typography >As your Gig storefront, your title is the most important place to include keywords that buyers would likely use to search for a service like yours.</Typography>
                 </Container>
@@ -74,6 +77,7 @@ function Overview() {
                  onChange={handleChange}
                  value={values.title}
                  />
+
             </Stack>
             <Stack  direction='row'>
                 <Stack sx={{marginLeft:'50px', marginTop:'50px'}} direction='column'>

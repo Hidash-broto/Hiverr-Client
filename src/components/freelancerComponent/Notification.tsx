@@ -85,6 +85,9 @@ function Notification(props: any) {
           marginTop: "85px",
           border: "solid 1px",
           filter: "drop-shadow(1px 1px 1px )",
+          top: '0',
+          left: '0',
+          zIndex: '99'
         }}
       >
         <Box sx={{ width: "100%", height: "40px", backgroundColor: "#D9D9D9" }}>
@@ -97,14 +100,13 @@ function Notification(props: any) {
             width: "100%",
             paddingBottom: "10px",
             marginTop: "0px",
-            backgroundColor: "white",
           }}
         >
           {notification.map((noti: any, ind: number) => {
             console.log(noti)
             if(noti.confirmed) {
               return(
-                <Stack sx={{ paddingLeft: "8px" }} direction="row" spacing={2}>
+                <Stack sx={{ paddingLeft: "8px", borderBottom: 'solid 1px', backgroundColor: 'white', paddingBottom: '10px' }} direction="row" spacing={2}>
                   <Avatar
                     alt='Upload'
                     src={tikMarkImageUrl}

@@ -48,7 +48,7 @@ export const useStyle = makeStyles((theme) => ({
     },
     clientSignupContainer: {
         width:'527px',
-        height: '575px',
+        paddingBottom: '20px',
         backgroundColor: '#ffffff',
         borderStyle:'solid',
         borderColor: 'black',

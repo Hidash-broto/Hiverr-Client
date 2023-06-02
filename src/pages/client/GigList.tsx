@@ -103,16 +103,16 @@ function GigList() {
           const element: any = document.getElementById(id)
             ? document.getElementById(id)
             : "";
-          return (element.style.color = "red");
+          return (element.style.color = "#0275d8");
         });
       }
     };
     fun();
-  });
+  },[]);
 
-  const handleFav = async (id: string) => {
+  const handleFav = async (id: string) => { 
     try {
-      const response = await axios.post(
+      const response = await axios.post( 
         `${process.env.REACT_APP_BASE_URL}/client/favouriteGig`,
         { id: id },
         {
@@ -127,7 +127,7 @@ function GigList() {
           const element: any = document.getElementById(id)
             ? document.getElementById(id)
             : "";
-          element.style.color = "red";
+          element.style.color = "#0275d8";
         } else {
           const element: any = document.getElementById(id)
             ? document.getElementById(id)
@@ -213,7 +213,7 @@ function GigList() {
 
         <Container sx={{ marginTop: "50px" }}>
           <Stack direction="column">
-            <Typography color="#C90138" variant="h4">
+            <Typography color="#002D04" variant="h4">
               Handpicked {gigCat} ideas for you
             </Typography>
             <Typography color="#545454" variant="h6">
@@ -277,7 +277,7 @@ function GigList() {
                       }}
                     >
                       <Typography
-                        color="#C90138"
+                        color="#002D04"
                         className="gigListTitle"
                         sx={{ fontFamily: "cursive", transition: "1s" }}
                         variant="h5"

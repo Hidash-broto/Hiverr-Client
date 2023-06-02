@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Container, MenuItem, TextField, Typography, Link } from '@mui/material'
+import { Button, Container, MenuItem, TextField, Typography, Link, Alert } from '@mui/material'
 import { useStyle } from '../../style'
 import '../../index.css'
 import GoogleIcon from '@mui/icons-material/Google';
@@ -47,12 +47,12 @@ function FreelancerSignup() {
         }}></GoogleIcon>Continue with Google</Button>
         <Formik initialValues={initialValue}
         validationSchema={yup.object({
-          firstName: yup.string().max(10,'Only allowed 10 charecteres').required('*Required').matches(/^'?\p{L}+(?:[' ]\p{L}+)*'?$/u,'Insert only normal character'),
-          lastName: yup.string().max(10,'Only allowed 10 charecteres').required('*Required').matches(/^'?\p{L}+(?:[' ]\p{L}+)*'?$/u,'Insert only normal character'),
-          email:yup.string().email('Invalid email').required('*Required'),
-          password:yup.string().min(8, 'Require 8 or more charecters').required("*Required"),
-          confirmPassword:yup.string().required("*Required"),
-          country:yup.string().required("*Required")
+          firstName: yup.string().max(10,'Only allowed 10 charecteres').required('*First Name Required').matches(/^'?\p{L}+(?:[' ]\p{L}+)*'?$/u,'Insert only normal character'),
+          lastName: yup.string().max(10,'Only allowed 10 charecteres').required('*Last Name Required').matches(/^'?\p{L}+(?:[' ]\p{L}+)*'?$/u,'Insert only normal character'),
+          email:yup.string().email('Invalid email').required('*Email Required'),
+          password:yup.string().min(8, 'Require 8 or more charecters').required("*Password Required"),
+          confirmPassword:yup.string().required("*Confirm Password Required"),
+          country:yup.string().required("*Country Required")
         })}
         onSubmit={async (values) => {
           console.log(values)
@@ -68,11 +68,19 @@ function FreelancerSignup() {
         >{({ handleSubmit, handleChange, errors, touched, values }) => (
 
           <form onSubmit={handleSubmit}>
+             {
+              errors.firstName && touched.firstName?<Alert sx={{marginTop: '20px'}} severity='error'>{errors.firstName}</Alert>:
+              errors.lastName && touched.lastName?<Alert sx={{marginTop: '20px'}} severity='error'>{errors.lastName}</Alert>:
+              errors.email && touched.email?<Alert sx={{marginTop: '20px'}} severity='error'>{errors.email}</Alert>:
+              errors.password && touched.password?<Alert sx={{marginTop: '20px'}} severity='error'>{errors.password}</Alert>:
+              errors.confirmPassword && touched.confirmPassword?<Alert sx={{marginTop: '20px'}} severity='error'>{errors.confirmPassword}</Alert>:
+              errors.country && touched.country?<Alert sx={{marginTop: '20px'}} severity='error'>{errors.country}</Alert>:''
+            }
             <Typography sx={{marginLeft:'130px', marginTop:'10px'}} color='#fc0303'>{confirmPass?"Password must be Match":null}</Typography>
             <Stack direction="row" spacing={3}>
               <TextField
                 id="outlined"
-                label={touched.firstName && errors.firstName ? errors.firstName: 'First Name'}
+                label='First Name'
                 type="text"
                 autoComplete="current-password"
                 size='small'
@@ -85,7 +93,7 @@ function FreelancerSignup() {
               />
               <TextField
                 id="outlined"
-                label={touched.lastName && errors.lastName ? errors.lastName: 'Last Name'}
+                label='Last Name'
                 type="text"
                 size='small'
                 className={`ml-4 mt-5 textField`}
@@ -99,7 +107,7 @@ function FreelancerSignup() {
             <Stack direction="column" spacing={3}>
               <TextField
                 id="outlined"
-                label={touched.email && errors.email ? errors.email: 'Email'}
+                label='Email'
                 type="text"
                 size='small'
                 className={`ml-8 mt-5 textField`}
@@ -111,7 +119,7 @@ function FreelancerSignup() {
               />
               <TextField
                 id="outlined"
-                label={touched.password && errors.password ? errors.password: 'Password'}
+                label='Password'
                 type="password"
                 size='small'
                 className={`ml-8  textField`}
@@ -124,7 +132,7 @@ function FreelancerSignup() {
               
               <TextField
                 id="outlined"
-                label={touched.confirmPassword && errors.confirmPassword ? errors.confirmPassword: 'Confirm Password'}
+                label='Confirm Password'
                 type="password"
                 autoComplete="current-password"
                 size='small'
@@ -139,7 +147,7 @@ function FreelancerSignup() {
               <TextField
                 id="outlined-select-currency"
                 select
-                label={touched.country && errors.country ? errors.country: 'Country'}
+                label='Country'
                 defaultValue="India"
                 helperText="Please select your Country"
                 size='small'

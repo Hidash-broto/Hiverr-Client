@@ -15,6 +15,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useNavigate } from 'react-router-dom';
+import EngineeringIcon from '@mui/icons-material/Engineering';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -185,6 +186,11 @@ export default function ClientNav(props: any) {
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton onClick={() => props.handleWorkStatus()} size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="error">
+                <EngineeringIcon />
               </Badge>
             </IconButton>
             <IconButton

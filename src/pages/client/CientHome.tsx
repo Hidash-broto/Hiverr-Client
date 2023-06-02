@@ -6,14 +6,18 @@ import UserFooter from '../../components/UserFooter'
 import ClientHomeCards from '../../components/clientHomePageComponents/ClientHomeCards'
 import { useState } from 'react'
 import Notification from '../../components/clientComponents/Notification'
+import WorkStatus from '../../components/clientComponents/WorkStatus'
 
 function CientHome() {
   const [search, setSearch]: any = useState('')
   const [notificationClicked, setNotificationClicked] = useState(false)
+  const [workStatus, setWorkStatus] = useState(false)
   const user = useSelector((state:any) => state.user)
   const handleSearch = (event: any) => {
     setSearch(event.target.value)
   }
+
+  const handleWorkStatus = () => setWorkStatus(!workStatus)
 
   const handleNotification: any = () => setNotificationClicked(!notificationClicked)
 
@@ -22,7 +26,10 @@ function CientHome() {
     {
       notificationClicked && <Notification />
     }
-    <ClientNav search={handleSearch} handleNotification={handleNotification}/>
+    {
+      workStatus && <WorkStatus />
+    }
+    <ClientNav search={handleSearch} handleNotification={handleNotification} handleWorkStatus={handleWorkStatus}/>
     <Container className='ClientHomeBanner'>
       <Typography sx={{marginTop: '100px', marginLeft: '50px', position: 'absolute'}} color='white' variant='h4'>{`${user.value.email ? user.value.email.replace('@gmail.com', '') : 'Guest'},`}<br /> Here's what you need to build<br/>your website</Typography>
       <Stack direction='row' spacing={3} sx={{marginLeft: '556px', marginTop: '74px', position: 'absolute'}}>

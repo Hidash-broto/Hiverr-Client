@@ -45,7 +45,7 @@ function Favourites() {
                     Authorization: `Bearer ${localStorage.getItem('clientToken')}`
                 }
             })
-            console.log(response)
+            console.log(response,'==')
             if(response.data.status) {
                 setGigs(response.data.data)
             }else {
@@ -53,7 +53,7 @@ function Favourites() {
             }
         }
         fetchData()
-    },[fetch])
+    })
     const handleClick = (gig: any) => {
         try {
           dispatch(gigDt(gig));
@@ -130,7 +130,7 @@ function Favourites() {
                         id={gig._id}
                         aria-label="add to favorites"
                         onClick={() => handleFav(gig._id)}
-                        sx={{color:'red'}}
+                        sx={{color:'blue'}}
                       >
                         <FavoriteIcon />
                       </IconButton>

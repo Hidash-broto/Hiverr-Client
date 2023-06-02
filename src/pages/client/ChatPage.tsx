@@ -56,7 +56,7 @@ function ChatPage() {
   }, [activeMessenger]);
   useEffect(() => {
     fetchData();
-  });
+  },[]);
   useEffect(() => {
     if (currentUserId?.length > 0) {
       socket.current = io("http://localhost:5000");

@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Divider,
+  Modal,
   Stack,
   Typography,
 } from "@mui/material";
@@ -16,6 +17,8 @@ import Notification from "../../components/freelancerComponent/Notification";
 import UserFooter from "../../components/UserFooter";
 import axios from "axios";
 import ReactLoading from "react-loading";
+import WorkStatus from "../../components/freelancerComponent/WorkStatus";
+import "react-quill/dist/quill.snow.css";
 
 function FreelancerHome() {
   const [datas, setDatas]: any = useState([]);
@@ -24,8 +27,33 @@ function FreelancerHome() {
   const [emptyData, setEmptyData] = useState(false);
   const [notificationClicked, setNotificationClicked]: boolean | any =
     useState(false);
+    const [deliverResponse, setDeliverResponse] = useState("");
+  const [workStatusClicked, setWorkStatusClicked]: boolean|any = useState(false)
   const classes = useStyle();
   const handleClick: any = () => setNotificationClicked(!notificationClicked);
+  const [file, setFile]: any = useState();
+  const [fileName, setFileName] = useState("");
+  const [currentGigId, setCurrentGigId] = useState('')
+  const saveFile = (e: any) => {
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
+  };
+  const uploadFile = async (e: any) => {
+    try {
+      e.preventDefault()
+      const res = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/freelancer/submitOrder`,{file, deliverResponse, currentGigId}, {
+          headers: {
+            'content-type': 'multipart/form-data'
+          }
+        }
+      );
+      console.log(res);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +87,6 @@ function FreelancerHome() {
             }
           });
           setDatas(objs);
-          console.log(setDatas, "datas");
           setFreelancer(response.data.freelancer);
         } else {
           setEmptyData(true);
@@ -69,7 +96,7 @@ function FreelancerHome() {
       }
     };
     fetchData();
-  });
+  }, []);
 
   function calculateDateDifference(date: string) {
     var userInput = new Date(date);
@@ -89,20 +116,44 @@ function FreelancerHome() {
     // Print the difference
     return daysDiff;
   }
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
+  const handleStatusWork = () => setWorkStatusClicked(!workStatusClicked);
+
+  const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
   return (
     <>
+
       {notificationClicked && (
         <Notification notificationClicked={handleClick} />
       )}
-      <FreelancerNav handleClick={handleClick} />
+      {
+        workStatusClicked && (
+          <WorkStatus datas={datas}/>
+        )
+      }
+                      
+      <FreelancerNav handleClick={handleClick} handleStatusWork={handleStatusWork} />
       <Container
         sx={{
           backgroundColor: "#EFEFEF",
           width: "100%",
           paddingBottom: "100px",
           maxWidth: "2000px !important",
-          minHeight: '600px'
+          minHeight: '600px',
+          marginTop: '5px'
         }}
       >
         <Stack direction="row">
@@ -267,7 +318,13 @@ function FreelancerHome() {
                     position: "abosolute !important",
                     marginLeft: "513px",
                     marginTop: "50px",
-                    borderLeft: "solid 4px red",
+                    borderLeft: `solid 3px ${
+                      obj.status === "Late"
+                        ? "red"
+                        : obj.status === "Progress"
+                        ? "blue"
+                        : "#ff7b00"
+                    }`,
                   }}
                 >
                   <Stack direction="column">
@@ -401,6 +458,10 @@ function FreelancerHome() {
                         variant="outlined"
                         size="large"
                         color="success"
+                        onClick={() => {
+                          setCurrentGigId(obj._id)
+                          handleOpen()
+                        }}
                       >
                         Delivery Now
                       </Button>
@@ -411,6 +472,26 @@ function FreelancerHome() {
             )}
           </Stack>
         </Stack>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <form encType="multipart/form-data">
+            <Typography variant='h5'>Deliver Completed Work</Typography>
+            <Divider sx={{marginTop: '20px'}}/>
+            <input style={{marginTop: '30px'}} type="file" onChange={(e) => {
+              saveFile(e)
+            }}/>
+            <Typography sx={{fontSize: '10px', opacity: '0.5', marginTop: '5px'}}>Max 500MB</Typography>
+            <Typography sx={{marginTop: '20px'}} variant='h6'>Response</Typography>
+            <textarea value={deliverResponse} onChange={(e) => setDeliverResponse(e.target.value)} name="response" style={{width: '100%', height: '200px', marginTop: '10px', marginBottom: '50px'}}></textarea>
+            <Button type="submit" onClick={uploadFile} sx={{position: 'absolute', right: '15px', marginTop: '-20 !important'}} variant='contained' color='success'>Deliver Work</Button>
+            </form>
+          </Box>
+        </Modal>
       </Container>
       <UserFooter />
     </>

@@ -82,6 +82,7 @@ function Discription() {
             value={value}
             onChange={setValue}
             placeholder="Content goes here..."
+            className="gigCreationQuill"
           />
         </Container>
         <Button

@@ -13,15 +13,15 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
-import { Badge } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { freelancerPageChange } from "../redux/FreelancerPage";
 import { useSelector, useDispatch } from "react-redux";
+import MailIcon from '@mui/icons-material/Mail';
 
 const pages = ["Dashbord", "Gigs", "Profile", "Earnings"];
 const path = [
   "/freelancer/home",
-  "/freelancer/gigCreation",
+  "/freelancer/gigPage",
   "/freelancer/profile",
   "/freelancer/earnings",
 ];
@@ -149,10 +149,16 @@ function ResponsiveAppBar(props: any) {
                 color="inherit"
                 onClick={props.handleClick}
               >
-                <Badge badgeContent={17} color="error">
                   <NotificationsIcon />
-                </Badge>
               </IconButton>
+        <IconButton onClick={() => {
+          navigate('/freelancer/chatPage')
+        }} size="large" aria-label="show 4 new mails" color="inherit">
+            <MailIcon />
+        </IconButton>
+        <Box onClick={() => props.handleStatusWork()} sx={{borderRadius: '50px', backgroundColor: '#bdbdbd', width: '50px', height: '50xp'}}>
+        <img src="/img/gears.png" style={{width: '34px', height: 'auto', marginTop: '5px', marginLeft: '8px'}} alt="" />
+        </Box>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>

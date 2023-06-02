@@ -294,7 +294,7 @@ function GigDetails() {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <TableCell sx={{ color: "red" }} component="th" scope="row">
+              <TableCell sx={{ color: "#0275d8" }} component="th" scope="row">
                 Delivey Time
               </TableCell>
               <TableCell align="right">{`${gig.deliveryTime} Days`}</TableCell>
@@ -304,7 +304,7 @@ function GigDetails() {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <TableCell sx={{ color: "red" }} component="th" scope="row">
+              <TableCell sx={{ color: "#0275d8" }} component="th" scope="row">
                 Hosting Setup
               </TableCell>
               <TableCell align="right">{`${gig.hostingSetup}`}</TableCell>
@@ -314,7 +314,7 @@ function GigDetails() {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <TableCell sx={{ color: "red" }} component="th" scope="row">
+              <TableCell sx={{ color: "#0275d8" }} component="th" scope="row">
                 Licenced Images
               </TableCell>
               <TableCell align="right">{`${gig.licensedImages} Images`}</TableCell>
@@ -324,7 +324,7 @@ function GigDetails() {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <TableCell sx={{ color: "red" }} component="th" scope="row">
+              <TableCell sx={{ color: "#0275d8" }} component="th" scope="row">
                 Number of Pages
               </TableCell>
               <TableCell align="right">{`${gig.numberOfPages} Pages`}</TableCell>
@@ -334,7 +334,7 @@ function GigDetails() {
                 "&:last-child td, &:last-child th": { border: 0 },
               }}
             >
-              <TableCell sx={{ color: "red" }} component="th" scope="row">
+              <TableCell sx={{ color: "#0275d8" }} component="th" scope="row">
                 Revisions
               </TableCell>
               <TableCell align="right">{`${gig.revisions}`}</TableCell>
@@ -404,7 +404,7 @@ function GigDetails() {
           style={{
             marginLeft: "-26px",
             marginTop: "-470px",
-            border: "solid 1px red",
+            border: "solid 1px #0275d8",
             paddingLeft: "10px",
             width: "924px",
             position: "absolute",

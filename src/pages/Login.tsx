@@ -1,5 +1,5 @@
 
-import { Typography, Stack, Container, CssBaseline, TextField, Button, Link, MenuItem } from '@mui/material'
+import { Typography, Stack, Container, CssBaseline, TextField, Button, Link, MenuItem, Alert } from '@mui/material'
 import { useStyle } from '../style'
 import '../index.css'
 import { Formik } from 'formik'
@@ -43,15 +43,15 @@ function Login() {
       <CssBaseline />
       <Container className='mainContainer'>
         <Container maxWidth='sm' style={{ width: '562px', height: '495px', marginLeft: '370px' }} className={classes.containerLogin}>
-          <Container maxWidth='sm' style={{ width: '562px', height: '495px', marginLeft: '-27px' }} className={classes.containerLogin2}>
+          <Container maxWidth='sm' style={{ width: '562px', paddingBottom: '20px', marginLeft: '-27px' }} className={classes.containerLogin2}>
             <Stack>
               <Typography className='mt-8 ml-12 heading' style={{ color: 'white' }} variant='h2'>Welcome back!</Typography>
             </Stack>
             <Formik initialValues={initialValue}
               validationSchema={yup.object({
-                email: yup.string().required('*Required').email('Invalid email'),
-                password: yup.string().required('*Required'),
-                userType: yup.string().required("*Required")
+                email: yup.string().required('*Email Required').email('Invalid email'),
+                password: yup.string().required('*Password Required'),
+                userType: yup.string().required("*User Type Required")
               })}
               onSubmit={async (values) => {
                 const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, values);
@@ -78,6 +78,11 @@ function Login() {
                 }
               }}>{({ handleSubmit, handleChange, errors, touched, values }) => (
                 <form onSubmit={handleSubmit}>
+                  {
+                    errors.email && touched.email ? <Alert severity='error'>{errors.email}</Alert>:
+                    errors.password && touched.password ? <Alert severity='error'>{errors.password}</Alert>:
+                    errors.userType && touched.userType ? <Alert severity='error'>{errors.userType}</Alert>:''
+                  }
                   <Stack direction='column'>
                     <TextField InputLabelProps={{ className: classes.floatingLabelFocusStyle }} onChange={handleChange} value={values.email} name='email' color='primary' className='adminInput' style={{ marginTop: '10px' }} id="standard-basic"
                       label={touched.email && errors.email ? errors.email : 'Email'} variant="standard" />
@@ -101,7 +106,7 @@ function Login() {
                       ))}
                     </TextField>
                     <Button className='mt-5' size='large' type='submit' variant="contained">Login</Button>
-                    <Link className='right' sx={{ marginLeft: '222px', marginTop: '7px', fontWeight: '5px' }}>New User</Link>
+                    <Link className='right' onClick={() => navigate('/signup')} sx={{ marginLeft: '222px', marginTop: '7px', fontWeight: '5px' }}>New User</Link>
                   </Stack>
                   <Button onClick={googleAuth}>Login with Google</Button>
                 </form>

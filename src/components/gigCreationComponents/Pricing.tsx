@@ -1,4 +1,4 @@
-import { Button, MenuItem, TextField, Typography } from "@mui/material";
+import { Alert, Button, MenuItem, TextField, Typography } from "@mui/material";
 import { Container, Stack } from "@mui/system";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -65,10 +65,8 @@ function Pricing() {
       <Formik
         initialValues={initialValue}
         validationSchema={yup.object({
-          deliveryTime: yup.string().required("*Required"),
-          numberOfPages: yup.string().required("*Required"),
-          revisions: yup.string().required("*Required"),
-          hostingSetup: yup.string().required("*Required"),
+          deliveryTime: yup.string().required("*Delivery Time Required"),
+          revisions: yup.string().required("*Revisions Required"),
           price: yup
             .number()
             .test(
@@ -76,7 +74,7 @@ function Pricing() {
               "Number had an 'e' or sign.",
               (value) =>
                 typeof value === "number" && !/[eE+-]/.test(value.toString())
-            ),
+            ).required('*Price Required'),
           licensedImages: yup
             .number()
             .test(
@@ -84,7 +82,7 @@ function Pricing() {
               "Number had an 'e' or sign.",
               (value) =>
                 typeof value === "number" && !/[eE+-]/.test(value.toString())
-            )
+            ).required('*Licensed Images Required')
         })}
         onSubmit={async(values) => {
           console.log(values, "=k=");
@@ -102,6 +100,16 @@ function Pricing() {
       >
         {({ handleSubmit, handleChange, errors, touched, values }) => (
           <form onSubmit={handleSubmit}>
+                        {
+                  errors.deliveryTime && touched.deliveryTime?<Alert sx={{ marginTop: '-37 !important', marginLeft: '183px'}} severity="error">{errors.deliveryTime}</Alert>:
+                  errors.numberOfPages && touched.numberOfPages?<Alert sx={{ marginTop: '-37 !important', marginLeft: '183px'}} severity="error">{errors.numberOfPages}</Alert>:
+                  errors.revisions && touched.revisions?<Alert sx={{ marginTop: '-37 !important', marginLeft: '183px'}} severity="error">{errors.revisions}</Alert>:
+                  errors.hostingSetup && touched.hostingSetup?<Alert sx={{ marginTop: '-37 !important', marginLeft: '183px'}} severity="error">{errors.hostingSetup}</Alert>:
+                  errors.price && touched.price?<Alert sx={{ marginTop: '-37 !important', marginLeft: '183px'}} severity="error">{errors.price}</Alert>:
+            
+                  
+                  errors.licensedImages && touched.licensedImages?<Alert sx={{ marginTop: '-37 !important', marginLeft: '183px'}} severity="error">{errors.licensedImages}</Alert>:''
+                }
             <Stack sx={{ marginLeft: "300px" }} direction="column">
               <Stack direction="row" spacing={0}>
                 <TextField
@@ -136,7 +144,7 @@ function Pricing() {
                   helperText={
                     touched.numberOfPages && errors.numberOfPages
                       ? errors.numberOfPages
-                      : "Number of Pages"
+                      : "Number of Pages(optional)"
                   }
                   label="Number of Pages"
                   name="numberOfPages"
@@ -194,7 +202,7 @@ function Pricing() {
                   helperText={
                     touched.hostingSetup && errors.hostingSetup
                       ? errors.hostingSetup
-                      : "Hosting Setup"
+                      : "Hosting Setup(optional)"
                   }
                   label="Hosting Setup"
                   name="hostingSetup"

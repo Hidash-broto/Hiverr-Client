@@ -35,6 +35,7 @@ import Favourites from "./pages/client/Favourites";
 import AdminPayments from "./components/AdminPayments";
 import FreelancerEarnings from "./pages/freelancer/FreelancerEarnings";
 import FreelancerProfile from "./pages/freelancer/FreelancerProfile";
+import FreelancerGigPage from "./pages/freelancer/FreelancerGigPage";
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -236,7 +237,7 @@ function App() {
             }
           />
 
-<Route
+          <Route
             path="/freelancer/profile"
             element={
               <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
@@ -247,6 +248,16 @@ function App() {
             }
           />
 
+          <Route
+            path="/freelancer/gigPage"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <ProtectedRouteUserFreelancer>
+                  <FreelancerGigPage />
+                </ProtectedRouteUserFreelancer>
+              </ErrorBoundary>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
