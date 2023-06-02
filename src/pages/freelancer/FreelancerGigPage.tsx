@@ -3,9 +3,12 @@ import { Container } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import FreelancerNav from '../../components/FreelancerNav'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UserFooter from '../../components/UserFooter';
+import { toast } from 'react-hot-toast';
+import Swal from "sweetalert2";
 
 function FreelancerGigPage() {
 
@@ -37,29 +40,39 @@ function FreelancerGigPage() {
             }
         }
         fetchData()
-    },[])
+    })
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const deleteGig = async (id: String) => {
+      console.log(id)
+      const response = await axios.put(`http://localhost:5000/api/freelancer/gigDelete`, {id})
+      if(response.data.status) {
+        toast.success('Deleted')
+      }else {
+        toast.error(response.data.message)
+      }
+    }
+
+    const handleChange = (event: React.SyntheticEvent, newValue: number = 0) => {
       console.log(newValue);
       setValue(newValue);
       const nwobj: any = []
       if(newValue === 0) {
         activeGigs.forEach((obj: any, index: number) => {
-            const obj1: any = { id: index + 1,image: obj.images[0], title: obj.title, IMPRESSION: 4, CLICKS: 5 }
+            const obj1: any = { id: index + 1,image: obj.images[0], title: obj.title, IMPRESSION: 4, CLICKS: 5, Delete: obj._id }
             console.log(obj1, '09')
             nwobj.push(obj1)
          });
          setRows(nwobj)
       } else if (newValue === 1) {
         pendingGigs.forEach((obj: any, index: number) => {
-            const obj1: any = { id: index + 1,image: obj.images[0], title: obj.title, IMPRESSION: 4, CLICKS: 5 }
+            const obj1: any = { id: index + 1,image: obj.images[0], title: obj.title, IMPRESSION: 4, CLICKS: 5, Delete: obj._id }
             nwobj.push(obj1)
             console.log(rows)
          })
          setRows(nwobj)
       } else if(newValue === 2) {
         rejectedGigs.forEach((obj: any, index: number) => {
-            const obj1: any = { id: index + 1,image: obj.images[0], title: obj.title, IMPRESSION: 4, CLICKS: 5 }
+            const obj1: any = { id: index + 1,image: obj.images[0], title: obj.title, IMPRESSION: 4, CLICKS: 5, Delete: obj._id }
             nwobj.push(obj1)
          })
          setRows(nwobj)
@@ -88,6 +101,20 @@ function FreelancerGigPage() {
           type: 'number',
           width: 90,
         },
+        { field: 'Delete', headerName: 'Delete', width: 100, renderCell: (params) => <DeleteIcon onClick={() => {
+          Swal.fire({
+            title: "Are you Sure to Delete the Gig",
+            showDenyButton: true,
+            confirmButtonText: "Sure",
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              deleteGig(params.value)
+            } else if (result.isDenied) {
+              Swal.fire("Changes are not saved", "", "info");
+            }
+          });
+        }}  sx={{color: 'red', marginLeft: '10px'}} />},
       ];
 
   return (

@@ -57,7 +57,7 @@ function ChatPageFreelancer() {
   },[]);
   useEffect(() => {
     if (currentUserId?.length > 0) {
-      socket.current = io("http://localhost:5000");
+      socket.current = io("https://hiverr-backend.onrender.com");
       socket.current.emit("add-user", currentUserId);
     }
   }, [currentUserId]);
