@@ -1,12 +1,11 @@
 import { Button, Stack, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Modal from '@mui/material/Modal';
 import Slider from '@mui/material/Slider';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import { async } from '@firebase/util';
 
 function WorkStatus(props: any) {
   console.log(props)
@@ -18,7 +17,6 @@ function WorkStatus(props: any) {
   const [doneThings, setDoneThings]: any = useState('');
   const [statusCount, setStatusCount]: number|any = useState(0);
   const [file, setFile]: any = useState();
-  const [fileName, setFileName] = useState("");
   const [currentGigId, setCurrentGigId] = useState('')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -42,7 +40,6 @@ function WorkStatus(props: any) {
 
   const saveFile = (e: any) => {
     setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
   };
 
   const handleUpdate = async () => {
@@ -173,6 +170,7 @@ function WorkStatus(props: any) {
         ''
       }
       <TextField onChange={(e) => setDoneThings(e.target.value)} id="standard-basic" label=      {
+        // eslint-disable-next-line eqeqeq
         statusCount == 100? 
         'Response':
         'What things done'

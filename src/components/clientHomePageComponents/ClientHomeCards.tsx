@@ -83,6 +83,7 @@ function ClientHomeCards(searchData: any) {
     <>
               <GridList cols={4} className='clienCardGroup'>
           {
+            // eslint-disable-next-line array-callback-return
             data.filter((val: any) => {
               if(searchData.search === '') {
                 return val

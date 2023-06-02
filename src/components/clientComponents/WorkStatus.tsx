@@ -11,7 +11,6 @@ import CheckIcon from '@mui/icons-material/Check';
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { async } from "@firebase/util";
 
 function WorkStatus() {
   const [allData, setAllData]: any = useState([]);

@@ -12,7 +12,6 @@ function ProtectedRouteUserFreelancer (props:childrenProp) {
 
 
   const {user} = useSelector((state:any) => state.user)
-  const client = localStorage.getItem('client')
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const token = localStorage.getItem('freelancerToken')
@@ -36,6 +35,7 @@ function ProtectedRouteUserFreelancer (props:childrenProp) {
     if(!user) {
       getUser()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[user])
 
   console.log(token);

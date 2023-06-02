@@ -121,6 +121,7 @@ function AdminPayments() {
             }
         }
         fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[refreshData])
   return (
     <>

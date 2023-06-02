@@ -2,15 +2,8 @@ import { Alert, Button, Divider, Stack, Tab, Tabs, Typography } from '@mui/mater
 import { Container } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import FreelancerNav from '../../components/FreelancerNav'
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import axios from 'axios';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
 import UserFooter from '../../components/UserFooter';
 
@@ -95,18 +88,6 @@ function FreelancerGigPage() {
           type: 'number',
           width: 90,
         },
-      ];
-
-      const rows2 = [
-        { id: 1, image: '/img/folder.png', firstName: 'Jon', age: 35 },
-        { id: 2, image: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, image: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, image: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, image: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, image: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, image: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, image: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, image: 'Roxie', firstName: 'Harvey', age: 65 },
       ];
 
   return (

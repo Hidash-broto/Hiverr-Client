@@ -32,11 +32,9 @@ function FreelancerHome() {
   const classes = useStyle();
   const handleClick: any = () => setNotificationClicked(!notificationClicked);
   const [file, setFile]: any = useState();
-  const [fileName, setFileName] = useState("");
   const [currentGigId, setCurrentGigId] = useState('')
   const saveFile = (e: any) => {
     setFile(e.target.files[0]);
-    setFileName(e.target.files[0].name);
   };
   const uploadFile = async (e: any) => {
     try {

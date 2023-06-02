@@ -1,4 +1,4 @@
-import { Step, StepLabel, Stepper, Typography } from '@mui/material'
+import { Step, StepLabel, Stepper } from '@mui/material'
 import { Container } from '@mui/system'
 import React from 'react'
 import FreelancerNav from '../../components/FreelancerNav'

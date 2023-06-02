@@ -13,7 +13,7 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import { red } from "@mui/material/colors";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import IconButton from "@mui/material/IconButton";
 import UserFooter from '../../components/UserFooter'
 
 function Favourites() {
