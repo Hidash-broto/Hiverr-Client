@@ -149,7 +149,7 @@ function WorkStatus(props: any) {
               <Slider defaultValue={100} step={10} marks min={0} max={100} disabled />:
               <Slider
               aria-label="Temperature"
-              defaultValue={modalData.statuses[modalLength].percentage}
+              defaultValue={modalData.statuses[modalLength]?.percentage}
               getAriaValueText={valuetext}
               valueLabelDisplay="auto"
               step={10}
