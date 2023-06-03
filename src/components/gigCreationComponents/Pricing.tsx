@@ -209,8 +209,8 @@ function Pricing() {
                   sx={{
                     width: "240px",
                     height: "50px",
-                    marginLeft: "100px",
-                    marginTop: "50px",
+                    marginLeft: "100px !important",
+                    marginTop: "50px !important",
                   }}
                   onChange={handleChange}
                 >
@@ -249,8 +249,8 @@ function Pricing() {
                   sx={{
                     width: "240px",
                     height: "50px",
-                    marginLeft: "100px",
-                    marginTop: "50px",
+                    marginLeft: "100px !important",
+                    marginTop: "50px !important",
                   }}
                   onChange={(e) => {
                     handleChange(e)
