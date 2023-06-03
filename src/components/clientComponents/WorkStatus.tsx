@@ -198,14 +198,18 @@ function WorkStatus() {
                   {obj.doneThings}.
                 </Typography>
                 </Box>
-                <Stack sx={{marginTop: '20px'}} direction='row' spacing={2}>
+                {
+                  obj.percentage === 100? 
+                  <Stack sx={{marginTop: '20px'}} direction='row' spacing={2}>
                 <SystemUpdateAltIcon onClick={() => {
                   downloadFile(obj.docId)
                 }} sx={{width: '30px', height: '30px', marginTop: '10px'}}/>
                 <Button onClick={() => {
                   closeOrder(obj.docId)
                 }} color='success' sx={{width: '30px', height: '30px', mt: '12px !important'}} variant="outlined"><CheckIcon/></Button>
-                </Stack>
+                </Stack>: ''
+                }
+                
               </Stack>
             </Box>
           );
