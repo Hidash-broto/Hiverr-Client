@@ -145,7 +145,7 @@ function WorkStatus(props: any) {
               Update Status
             </Typography>
             {
-              modalData.statuses[modalLength].percentage === 100?
+              modalData.statuses[modalLength]?.percentage === 100?
               <Slider defaultValue={100} step={10} marks min={0} max={100} disabled />:
               <Slider
               aria-label="Temperature"
