@@ -129,7 +129,7 @@ export default function ClientNav(props: any) {
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
-            <MailIcon />
+            <MailIcon  />
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -183,7 +183,7 @@ export default function ClientNav(props: any) {
           }}>
                 <FavoriteIcon />
             </IconButton>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            <IconButton onClick={() => navigate('/client/ChatPage')} size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>

@@ -9,10 +9,12 @@ import UserFooter from "../../components/UserFooter";
 import { io } from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 function ChatPage() {
   const socket: any = useRef();
-  const [activeMessenger, setActiveMessenger] = useState("");
+  const [activeMessenger, setActiveMessenger] = useState(useSelector((state: any) => state.messageUser.user));
+  console.log(useSelector((state: any) => state.messageUser), '87')
   const [currentUserId, setCurrentUserId] = useState([]);
   const [allUsers, setAllUsers]: any = useState([]);
   const [messages, setMessages]: any = useState([]);
