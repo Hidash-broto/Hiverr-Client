@@ -11,6 +11,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import CallIcon from '@mui/icons-material/Call';
+import PhoneDisabledIcon from '@mui/icons-material/PhoneDisabled';
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import FreelancerNav from "../../components/FreelancerNav";
 import Notification from "../../components/freelancerComponent/Notification";
@@ -19,6 +21,8 @@ import axios from "axios";
 import ReactLoading from "react-loading";
 import WorkStatus from "../../components/freelancerComponent/WorkStatus";
 import "react-quill/dist/quill.snow.css";
+import VideocamIcon from '@mui/icons-material/Videocam';
+import { useNavigate } from "react-router-dom";
 
 function FreelancerHome() {
   const [datas, setDatas]: any = useState([]);
@@ -33,6 +37,9 @@ function FreelancerHome() {
   const handleClick: any = () => setNotificationClicked(!notificationClicked);
   const [file, setFile]: any = useState();
   const [currentGigId, setCurrentGigId] = useState('')
+  const [calling, setCalling] = useState(false)
+  const [caller, setCaller]: any = useState({});
+  const navigate = useNavigate()
   const saveFile = (e: any) => {
     setFile(e.target.files[0]);
   };
@@ -52,6 +59,24 @@ function FreelancerHome() {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/freelancer/callCheck`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('freelancerToken')}`
+        }
+      })
+      console.log(response)
+      if(response.data.status) {
+        setCaller(response.data.data)
+        setCalling(true)
+      } else {
+        setCalling(false)
+      }
+
+    }
+    fetchData()
+  } )
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,6 +159,23 @@ function FreelancerHome() {
   return (
     <>
 
+    {
+      calling && (
+        <Alert sx={{position: 'absolute', zIndex: '99', marginTop: '30px', marginLeft: '550px'}} variant="filled" severity="info">
+          <Stack direction='row'spacing={1}>
+        <VideocamIcon sx={{marginTop: '5px !important'}} />
+        <Typography sx={{marginTop: '5px !important'}}>{caller.firstName + ' ' + caller.lastName} is Calling You</Typography>
+        <Button variant='contained' color='error' size='small'><PhoneDisabledIcon /></Button>
+        <Button onClick={() => {
+          const stat: any = true
+          localStorage.setItem('freelancerVideoCall', stat)
+          navigate('/freelancer/videoCall')
+          }} variant='contained' color='success' size='small'><CallIcon /></Button>
+        </Stack>
+      </Alert>
+      )
+    }
+
       {notificationClicked && (
         <Notification notificationClicked={handleClick} />
       )}
@@ -194,7 +236,7 @@ function FreelancerHome() {
                 sx={{ marginTop: "10px", textAlign: "center" }}
                 variant="h6"
               >
-                {freelancer.firstName + " " + freelancer.lastName}
+                {freelancer.firstName !== 'undefined'?freelancer.firstName + " " + freelancer.lastName:'User'}
               </Typography>
               <Typography
                 sx={{ fontSize: "15px", color: "#ababab", marginLeft: "140px" }}

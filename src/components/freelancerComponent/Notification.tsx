@@ -26,6 +26,7 @@ function Notification(props: any) {
         console.log(response, "90");
         if(response.data.status) {
             setNotification(response.data.data);
+            console.log(response.data.data)
             setMessages(response.data.messages);
           }  else {
           toast.error(response.data.message)
@@ -154,7 +155,7 @@ function Notification(props: any) {
                     >
                       {noti.firstName + " " + noti.lastName}
                     </Typography>
-                    <Typography>{messages[ind]}</Typography>
+                    <Typography>{messages[0]}</Typography>
                   </Stack>
                   <Button
                     sx={{

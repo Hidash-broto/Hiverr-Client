@@ -12,7 +12,7 @@ root.render(
   <React.StrictMode>
     <StyledEngineProvider injectFirst>  
     <Provider store={store}>
-    <App />
+    <App/>
     </Provider>
     </StyledEngineProvider>
   </React.StrictMode>

@@ -10,6 +10,8 @@ import { io } from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
+import VideoCallIcon from '@mui/icons-material/VideoCall';
+import { useNavigate } from "react-router-dom";
 
 function ChatPage() {
   const socket: any = useRef();
@@ -23,6 +25,7 @@ function ChatPage() {
   let ind: number = allUsers.findIndex(
     (obj: any) => obj._id === activeMessenger
   );
+  const navigate = useNavigate()
 
   const fetchData = async () => {
     const response = await axios.get(
@@ -78,6 +81,20 @@ function ChatPage() {
     arrivalMessage && setMessages((prev: any) => [...prev, arrivalMessage]);
     console.log(messages, "messages");
   }, [arrivalMessage]);
+
+  const handleVideoCall = async () => {
+    const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/client/freelancerCalling`, {activeMessenger}, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('clientToken')}`
+      }
+    })
+    console.log(response)
+    if(response.data.status) {
+      navigate('/client/videoCall');
+    }else {
+      toast.error(response.data.message)
+    }
+  }
 
   const handleSendMsg = async (msg: string) => {
     var currentdate = new Date();
@@ -227,6 +244,11 @@ function ChatPage() {
                 >
                   {allUsers[ind].firstName}
                 </Typography>
+                <VideoCallIcon onClick={() => {
+                  const stat: any = true;
+                  localStorage.setItem('clientVideoCall', stat)
+                  handleVideoCall()
+                }} sx={{width: '50px', height: '50px', marginTop: '5px', marginLeft: '664px', color: 'white'}} />
                 <Divider sx={{ color: "#dbdbdb" }} />
               </>
             ) : (

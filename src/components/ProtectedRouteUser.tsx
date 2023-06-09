@@ -45,7 +45,9 @@ function ProtectedRouteUser (props:childrenProp) {
   if (token) {
     return(
       <>
+      <div style={{height: '100%', width: '100%'}}>
         {props.children}
+      </div>
       </>
     ) 
   } else {

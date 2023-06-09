@@ -36,6 +36,7 @@ import AdminPayments from "./components/AdminPayments";
 import FreelancerEarnings from "./pages/freelancer/FreelancerEarnings";
 import FreelancerProfile from "./pages/freelancer/FreelancerProfile";
 import FreelancerGigPage from "./pages/freelancer/FreelancerGigPage";
+import VideoCall  from "./components/videoCallComponents/VideoCall";
 
 const UsersList = React.lazy(() => import("./components/UsersList"));
 
@@ -258,7 +259,30 @@ function App() {
               </ErrorBoundary>
             }
           />
+
+<Route
+            path="/client/videoCall"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <ProtectedRouteUser>
+                    <VideoCall />
+                </ProtectedRouteUser>
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/freelancer/videoCall"
+            element={
+              <ErrorBoundary fallbackRender={FallbackErrorBoundary}>
+                <ProtectedRouteUserFreelancer>
+                    <VideoCall />
+                </ProtectedRouteUserFreelancer>
+              </ErrorBoundary>
+            }
+          />
+
         </Routes>
+
       </BrowserRouter>
     </>
   );
