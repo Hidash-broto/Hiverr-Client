@@ -86,6 +86,7 @@ function ResponsiveAppBar(props: any) {
               src="/img/HiverrBlackLogo.png"
               style={{ width: "150px" }}
               alt=""
+              onClick={() => navigate('/freelancer/home')}
             />
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton

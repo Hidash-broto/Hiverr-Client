@@ -165,7 +165,7 @@ export default function ClientNav(props: any) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar sx={{backgroundColor: '#002D04 !important'}} position="static">
         <Toolbar>
-          <img style={{width: '150px'}} src="/img/HiverrWhiteLogo.png" alt="Logo" />
+          <img onClick={() => navigate('/')} style={{width: '150px'}} src="/img/HiverrWhiteLogo.png" alt="Logo" />
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
