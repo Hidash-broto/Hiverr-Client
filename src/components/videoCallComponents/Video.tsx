@@ -5,7 +5,8 @@ import { Container } from '@mui/material'
 
 function Video(props: any) {
     const {users, tracks} = props
-    const [setGridSpacing]:Number|any = useState(12)
+    const [gridSpacing, setGridSpacing]:Number|any = useState(12)
+    console.log(gridSpacing)
 
     useEffect(() => {
         setGridSpacing(Math.max(Math.floor(12/(users.length + 1)), 4))

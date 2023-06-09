@@ -10,11 +10,12 @@ import FreelancerNav from '../FreelancerNav'
 
 function VideoCall(props: any) {
     console.log(window.location.href, '09')
-    const [setInCall] = useState(true);
+    const [inCall, setInCall] = useState(true);
     const [users, setUsers]:any = useState([]);
     const [start, setStart] = useState(false);
     const client = useClient();
     const {ready, tracks} = useMicrophoneAndCameraTracks();
+    console.log(inCall)
     useEffect(() => {
         const init = async (name: String|any) => {
             client.on('user-published',async (user:any, mediaType:any) => {
