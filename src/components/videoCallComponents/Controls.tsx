@@ -12,7 +12,8 @@ import { useNavigate } from 'react-router-dom';
 function Controls(props: any) {
     const navigate = useNavigate()
     const client = useClient();
-    const {tracks , setInCall, setStart,} = props;
+    const [screenSharing, setScreenSharing]: Boolean|any = useState(true);
+    const {tracks , setInCall, setStart, startScreenSharing, stopScreenSharing} = props;
     const [trackState, setTrackState] = useState({video: true, audio: true, screenShare: false})
 
     const leaveCall = async () => {
@@ -23,7 +24,7 @@ function Controls(props: any) {
         setStart(false)
         setInCall(false)
         console.log(window.location.href)
-        window.location.href === 'http://localhost:3000/freelancer/videoCall'?navigate('/freelancer/chatPage'):navigate('/client/chatPage')
+        window.location.href === 'https://hiverrr.netlify.app/freelancer/videoCall'?navigate('/freelancer/chatPage'):navigate('/client/chatPage')
     }
 
     const mute = async (type: String|any) => {
@@ -44,8 +45,11 @@ function Controls(props: any) {
     <>
       <Grid style={{position: 'absolute', zIndex: '99', marginLeft: '520px', marginTop: '450px'}} container alignItems='center' spacing={2} >
       <Grid item >
-            <Button  variant='contained' color={trackState.screenShare? 'secondary':'primary'}>
-            {trackState.screenShare? <ScreenShareIcon /> : <ScreenShareIcon />}
+            <Button onClick={() => {
+                setScreenSharing(!screenSharing)
+                screenSharing?stopScreenSharing():startScreenSharing()
+                }} variant='contained' color={screenSharing? 'secondary':'primary'}>
+            {screenSharing? <ScreenShareIcon /> : <ScreenShareIcon />}
             </Button>
         </Grid>
         <Grid item >

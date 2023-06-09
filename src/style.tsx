@@ -4,13 +4,14 @@ import {makeStyles} from '@material-ui/core/styles'
 export const useStyle = makeStyles((theme) => ({
     containerLogin: {
         background: '#FCAF26',
-        marginTop: '100px',
+        marginTop: '60px',
         position: 'absolute',
         marginLeft:'80px'
     },
     containerLogin2: {
-        background: '#2c2e30',
+        background: 'whitesmoke',
         marginTop: '3px',
+        filter: 'drop-shadow(-2px 1px 4px black)'
     },
     heading: {
         marginLeft:'30px',
@@ -56,7 +57,7 @@ export const useStyle = makeStyles((theme) => ({
         borderRadius:'10px'
     },
     floatingLabelFocusStyle: {
-        color:'#ffffff',
+        color:'black',
         fontSize:'20px'
     },
     adminLayout: {

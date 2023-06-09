@@ -4,9 +4,12 @@ import { Grid } from '@material-ui/core'
 import { Container } from '@mui/material'
 
 function Video(props: any) {
-    const {users, tracks} = props
+    const {users, tracks, screenTrack} = props
+    console.log(screenTrack,'--')
     const [gridSpacing, setGridSpacing]:Number|any = useState(12)
     console.log(gridSpacing)
+
+
 
     useEffect(() => {
         setGridSpacing(Math.max(Math.floor(12/(users.length + 1)), 4))
@@ -16,6 +19,7 @@ function Video(props: any) {
   return (
     <>
       <Grid container style={{height: '600px'}}>
+      {/* <video ref={(ref) => (ref ? screenTrack.play(ref) : null)} /> */}
         <Container sx={{width: '300px', maxWidth: '2000px !important', height: '200px', position: 'absolute', ml: '20px', mt: '320px', zIndex: '99'}}>
             <AgoraVideoPlayer videoTrack={tracks[1]} style={{height: '100%', width: '100%'}} />
         </Container>

@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { userData } from '../redux/User'
 import { useDispatch } from 'react-redux'
+import FreelancerLoginNav from '../components/freelancerComponent/FreelancerLoginNav'
 
 interface MyFormValues {
   email: string,
@@ -41,11 +42,12 @@ function Login() {
   return (
     <>
       <CssBaseline />
+      <FreelancerLoginNav />
       <Container className='mainContainer'>
-        <Container maxWidth='sm' style={{ width: '562px', height: '495px', marginLeft: '370px' }} className={classes.containerLogin}>
-          <Container maxWidth='sm' style={{ width: '562px', paddingBottom: '20px', marginLeft: '-27px' }} className={classes.containerLogin2}>
+        <Container maxWidth='sm' style={{ width: '562px', height: '500px', marginLeft: '370px' }} className={classes.containerLogin}>
+          <Container maxWidth='sm' style={{ width: '562px', paddingBottom: '20px', marginLeft: '-27px', marginBottom: '20px' }} className={classes.containerLogin2}>
             <Stack>
-              <Typography className='mt-8 ml-12 heading' style={{ color: 'white' }} variant='h2'>Welcome back!</Typography>
+              <Typography className='mt-8 ml-12 heading' style={{ color: 'black' }} variant='h2'>Welcome back!</Typography>
             </Stack>
             <Formik initialValues={initialValue}
               validationSchema={yup.object({
@@ -112,10 +114,11 @@ function Login() {
                 </form>
               )}
             </Formik>
-
           </Container>
         </Container>
       </Container>
+      <br />
+      <br />
     </>
   )
 }
