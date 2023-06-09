@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 function Controls(props: any) {
     const navigate = useNavigate()
     const client = useClient();
-    const [screenSharing, setScreenSharing]: Boolean|any = useState(true);
+    const [screenSharing, setScreenSharing]: Boolean|any = useState(false);
     const {tracks , setInCall, setStart, startScreenSharing, stopScreenSharing} = props;
     const [trackState, setTrackState] = useState({video: true, audio: true, screenShare: false})
 
