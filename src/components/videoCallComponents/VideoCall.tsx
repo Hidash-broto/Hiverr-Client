@@ -28,12 +28,6 @@ function VideoCall(props: any) {
                 if(mediaType === 'audio') {
                     user.audioTrack.play()
                 }
-                if(mediaType === 'screen') {
-                    await client.subscribe(user, 'video');
-                    setUsers((prev: any) => {
-                        return [...prev, user]
-                    })
-                }
             })
 
             client.on('user-unpublished', (user:any, mediaType: any) => {
@@ -43,11 +37,6 @@ function VideoCall(props: any) {
                 if(mediaType === 'video') {
                     setUsers((prev: any) => {
                         return prev.filter((User:any) => User.uid !== user.uid)
-                    })
-                }
-                if(mediaType === 'screen') {
-                    setUsers((prev: any) => {
-                        return prev.filter((User: any) => User.uid !== user.uid)
                     })
                 }
             })
@@ -95,7 +84,7 @@ function VideoCall(props: any) {
 
   return (
     <>{
-        window.location.href === 'http://localhost:3000/freelancer/videoCall'?<FreelancerNav />:<ClientNav />
+        window.location.href === 'https://hiverrr.netlify.app/freelancer/videoCall'?<FreelancerNav />:<ClientNav />
     }
           
       <Grid container direction='column' style={{height: '100%'}}>
